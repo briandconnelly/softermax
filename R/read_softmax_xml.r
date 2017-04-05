@@ -1,4 +1,3 @@
-
 # Make a tibble for each well
 read_softmax_xml_plate_well <- function(w, plate_name) {
     well_name <- xml2::xml_attr(w, "Name")
@@ -14,10 +13,18 @@ read_softmax_xml_plate_well <- function(w, plate_name) {
 }
 
 # Make a data frame for each plate, combining the data from each well
-read_softmax_xml_plate <- function(p, platesAsFactors = TRUE, wellsAsFactors = TRUE) {
+read_softmax_xml_plate <- function(p,
+                                   platesAsFactors = TRUE,
+                                   wellsAsFactors = TRUE) {
     plate_name <- xml2::xml_attr(p, "Name")
     wells <- xml2::xml_find_all(p, ".//Wells/Well")
-    d <- dplyr::bind_rows(lapply(X = wells, FUN = read_softmax_xml_plate_well, plate_name = plate_name))
+    d <- dplyr::bind_rows(
+        lapply(
+            X = wells,
+            FUN = read_softmax_xml_plate_well,
+            plate_name = plate_name
+        )
+    )
 
     temps_raw <- xml2::xml_find_first(p, ".//TemperatureData")
     d$Temperature <- as.numeric(strsplit(xml2::xml_text(temps_raw), " ")[[1]])
@@ -44,7 +51,9 @@ read_softmax_xml_plate <- function(p, platesAsFactors = TRUE, wellsAsFactors = T
 #' \dontrun{
 #' d <- read_softmax_xml("myfile.xml")
 #' }
-read_softmax_xml <- function(file, platesAsFactors = TRUE, wellsAsFactors = TRUE) {
+read_softmax_xml <- function(file,
+                             platesAsFactors = TRUE,
+                             wellsAsFactors = TRUE) {
     datafile <- xml2::read_xml(file)
     plates <- xml2::xml_find_all(datafile, ".//PlateSections/PlateSection")
 
