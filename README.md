@@ -4,7 +4,9 @@ softermax
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 [![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![BSD License](https://img.shields.io/badge/license-BSD-brightgreen.svg)](https://opensource.org/licenses/BSD-2-Clause) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/softermax)](https://cran.r-project.org/package=softermax)
 
-Read microtiter plate data exported from [Molecular Devices](https://www.moleculardevices.com) [SoftMax Pro](https://www.moleculardevices.com/systems/microplate-readers/softmax-pro-7-software).
+Read microtiter plate data exported from [Molecular Devices](https://www.moleculardevices.com) [SoftMax Pro](https://www.moleculardevices.com/systems/microplate-readers/softmax-pro-7-software) into R.
+
+**Note:** Although this package is working, it's still at an early stage, so function and parameter names may change as things settle.
 
 Installation
 ------------
@@ -93,6 +95,15 @@ Here, we'll use [ggplot2](https://cran.r-project.org/package=ggplot2) to plot th
 ```
 
 ![](README-images/Static%20Plot-1.png)
+
+See Also
+--------
+
+-   My other packages for working with microtiter plates
+    -   [microtiterr](https://github.com/briandconnelly/microtiterr) - R package that provides simple functions for working with microplate data
+    -   [growthcurve](https://github.com/briandconnelly/growthcurve) - R package for analyzing growth (fitting growth curves)
+    -   [ggplot2bdc](https://cran.r-project.org/package=ggplot2) - R package with simple tools for working with ggplot2. Includes `theme_bdc_microtiter` for making plots look like microtiter plates.
+-   [plater](https://github.com/ropenscilabs/plater) - Provides a nice interface for importing and combining data as data frames ([CRAN](https://cran.r-project.org/package=plater))
 
 Contributer Code of Conduct
 ---------------------------
