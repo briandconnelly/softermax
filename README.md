@@ -1,10 +1,20 @@
 # softermax
 
-[![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip))
+[![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
 [![BSD License](https://img.shields.io/badge/license-BSD-brightgreen.svg)](https://opensource.org/licenses/BSD-2-Clause)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/softermax)](https://cran.r-project.org/package=softermax)
 
 Read microtiter plate data exported from [Molecular Devices](https://www.moleculardevices.com) [SoftMax Pro](https://www.moleculardevices.com/systems/microplate-readers/softmax-pro-7-software).
+
+
+## Installation
+
+softermax is not quite ready to be available on [CRAN](http://cran.r-project.org), but you can use [devtools](http://cran.r-project.org/web/packages/devtools/index.html) to install the current development version:
+
+```r
+    if(!require("devtools")) install.packages("devtools")
+    devtools::install_github("briandconnelly/softermax")
+```
 
 
 ## Contributer Code of Conduct

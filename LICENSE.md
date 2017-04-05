@@ -1,4 +1,4 @@
-Copyright 2014-2017 Brian Connelly
+Copyright 2017 Brian Connelly
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
