@@ -18,8 +18,12 @@ knitr::opts_chunk$set(
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/softermax)](https://cran.r-project.org/package=softermax)
 
 Read microtiter plate data exported from [Molecular Devices](https://www.moleculardevices.com) [SoftMax Pro](https://www.moleculardevices.com/systems/microplate-readers/softmax-pro-7-software) into R.
+At the moment, only XML data are supported, which requires SoftMax Pro version 6 or 7.
 
 **Note:** Although this package is working, it's still at an early stage, so function and parameter names may change as things settle.
+
+**Help:** I only have access to data produced by one machine and one version of SoftMax Pro, so any feedback is really apprecaited.
+[Please let me know](https://github.com/briandconnelly/softermax/issues) if the package works for you or if you run into problems.
 
 
 ## Installation
@@ -77,6 +81,23 @@ knitr::kable(head(d$plates[[1]], n = 10), format = "markdown")
 ```
 
 
+#### Exporting the Data
+
+At this point, you can also save the plate data to a file.
+For example, we could save the first plate's data as a [csv](https://en.wikipedia.org/wiki/Comma-separated_values), which is easy to load in many other environments like Python or Excel.
+
+```{r Export CSV}
+# Option 1: Base R
+write.csv(d$plates[[1]], file = "cv_dilutions-plate1.csv")
+
+
+# Option 2: Using the readr package
+readr::write_csv(d$plates[[1]], path = "cv_dilutions-plate1.csv")
+```
+
+You could also write the data to Google Sheets with [googlesheets](https://github.com/jennybc/googlesheets).
+
+
 ### Plotting the Data
 
 Since this was a *static read*, we can quickly make a plot of the readings for each well.
@@ -99,8 +120,8 @@ library(ggplot2bdc)
 
 ggplot(data = platedata, aes(x = Column, y = Row, color = Value)) +
     geom_point(data = expand.grid(Column = seq(1,12), Row = seq(1,8)),
-               color = "grey90", fill = "white", shape = 21, size = 8) +
-    geom_point(size = 9) +
+               color = "grey90", fill = "white", shape = 21, size = 10) +
+    geom_point(size = 12) +
     coord_fixed(ratio = (13/12)/(9/8), xlim = c(0.5, 12.5), ylim = c(0.6, 8.4)) +
     scale_y_reverse(breaks = seq(1, 8), labels = LETTERS[1:8]) +
     scale_x_continuous(breaks = seq(1, 12), position = "top") +
