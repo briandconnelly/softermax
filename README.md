@@ -14,8 +14,8 @@ Installation
 softermax is not quite ready to be available on [CRAN](http://cran.r-project.org), but you can use [devtools](http://cran.r-project.org/web/packages/devtools/index.html) to install the current development version:
 
 ``` r
-    if(!require("devtools")) install.packages("devtools")
-    devtools::install_github("briandconnelly/softermax")
+if(!require("devtools")) install.packages("devtools")
+devtools::install_github("briandconnelly/softermax")
 ```
 
 Usage
@@ -37,18 +37,18 @@ Choose your file name, and you're all set.
 
 ### Importing Data into R
 
-The `read_softmax_xml` function can read XML files exported by SoftMax Pro. Just supply the name of the file that you saved.
+The `read_softmax_xml` function can read XML files exported by SoftMax Pro. Just supply the name of the file that you saved. For this example, I'll use one called `crystal_violet_dilutions.xml`.
 
 ``` r
-    library(softermax)
+library(softermax)
 
-    d <- read_softmax_xml("crystal_violet_dilutions.xml")
+d <- read_softmax_xml("crystal_violet_dilutions.xml")
 ```
 
 The variable `d` is an object that contains information about your experiment. Most importantly, `d$plates` is a list where each element is a data frame (actually a [tibble](https://cran.r-project.org/package=tibble)) with information about each well in that plate. For this example data, there is only one plate. Let's take a look at the first ten rows:
 
 ``` r
-    head(d$plates[[1]], n = 10)
+head(d$plates[[1]], n = 10)
 ```
 
 | Plate  |  Time| Well |   Value|  Temperature|
@@ -69,29 +69,29 @@ The variable `d` is an object that contains information about your experiment. M
 Since this was a *static read*, we can quickly make a plot of the readings for each well. First, we can add Row and Column values for each well using functions from [microtiterr](https://github.com/briandconnelly/microtiterr).
 
 ``` r
-    library(dplyr)
-    library(microtiterr)
+library(dplyr)
+library(microtiterr)
 
-    platedata <- d$plates[[1]] %>%
-        mutate(Row = well_row(Well), Column = well_column(Well))
+platedata <- d$plates[[1]] %>%
+    mutate(Row = well_row(Well), Column = well_column(Well))
 ```
 
 Here, we'll use [ggplot2](https://cran.r-project.org/package=ggplot2) to plot the data with `theme_bdc_microtiter` from the [ggplot2bdc](https://github.com/briandconnelly/ggplot2bdc) package to make the output look like a 96-well microtiter plate.
 
 ``` r
-    library(ggplot2)
-    library(ggplot2bdc)
+library(ggplot2)
+library(ggplot2bdc)
 
-    ggplot(data = platedata, aes(x = Column, y = Row, color = Value)) +
-        geom_point(data = expand.grid(Column = seq(1,12), Row = seq(1,8)),
-                   color = "grey90", fill = "white", shape = 21, size = 8) +
-        geom_point(size = 9) +
-        coord_fixed(ratio = (13/12)/(9/8), xlim = c(0.5, 12.5), ylim = c(0.6, 8.4)) +
-        scale_y_reverse(breaks = seq(1, 8), labels = LETTERS[1:8]) +
-        scale_x_continuous(breaks = seq(1, 12), position = "top") +
-        scale_color_continuous(name = "OD595") +
-        labs(title = "Crystal Violet Dilution Series (2x)", subtitle = "5 April 2017") +
-        theme_bdc_microtiter()
+ggplot(data = platedata, aes(x = Column, y = Row, color = Value)) +
+    geom_point(data = expand.grid(Column = seq(1,12), Row = seq(1,8)),
+               color = "grey90", fill = "white", shape = 21, size = 8) +
+    geom_point(size = 9) +
+    coord_fixed(ratio = (13/12)/(9/8), xlim = c(0.5, 12.5), ylim = c(0.6, 8.4)) +
+    scale_y_reverse(breaks = seq(1, 8), labels = LETTERS[1:8]) +
+    scale_x_continuous(breaks = seq(1, 12), position = "top") +
+    scale_color_continuous(name = "OD595") +
+    labs(title = "Crystal Violet Dilution Series (2x)", subtitle = "5 April 2017") +
+    theme_bdc_microtiter()
 ```
 
 ![](README-images/Static%20Plot-1.png)
@@ -102,7 +102,7 @@ See Also
 -   My other packages for working with microtiter plates
     -   [microtiterr](https://github.com/briandconnelly/microtiterr) - R package that provides simple functions for working with microplate data
     -   [growthcurve](https://github.com/briandconnelly/growthcurve) - R package for analyzing growth (fitting growth curves)
-    -   [ggplot2bdc](https://cran.r-project.org/package=ggplot2) - R package with simple tools for working with ggplot2. Includes `theme_bdc_microtiter` for making plots look like microtiter plates.
+    -   [ggplot2bdc](https://github.com/briandconnelly/ggplot2bdc) - R package with simple tools for working with ggplot2. Includes `theme_bdc_microtiter` for making plots look like microtiter plates.
 -   [plater](https://github.com/ropenscilabs/plater) - Provides a nice interface for importing and combining data as data frames ([CRAN](https://cran.r-project.org/package=plater))
 
 Contributer Code of Conduct
