@@ -3,3 +3,4 @@
 export(combine_plates)
 export(read_softmax5_xml)
 export(read_softmax6_xml)
+export(read_softmax_xml)
