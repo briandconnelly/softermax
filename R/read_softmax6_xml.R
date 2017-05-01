@@ -1,5 +1,5 @@
 # Make a tibble for each well
-read_softmax_xml_plate_well <- function(w, plate_name) {
+read_softmax6_xml_plate_well <- function(w, plate_name) {
     well_name <- xml2::xml_attr(w, "Name")
     rawdata <- xml2::xml_find_first(w, ".//RawData")
     timedata <- xml2::xml_find_first(w, ".//TimeData")
@@ -13,7 +13,7 @@ read_softmax_xml_plate_well <- function(w, plate_name) {
 }
 
 # Make a data frame for each plate, combining the data from each well
-read_softmax_xml_plate <- function(p,
+read_softmax6_xml_plate <- function(p,
                                    platesAsFactors = TRUE,
                                    wellsAsFactors = TRUE) {
     plate_name <- xml2::xml_attr(p, "Name")
@@ -21,7 +21,7 @@ read_softmax_xml_plate <- function(p,
     d <- dplyr::bind_rows(
         lapply(
             X = wells,
-            FUN = read_softmax_xml_plate_well,
+            FUN = read_softmax6_xml_plate_well,
             plate_name = plate_name
         )
     )
@@ -49,9 +49,9 @@ read_softmax_xml_plate <- function(p,
 #'
 #' @examples
 #' \dontrun{
-#' d <- read_softmax_xml("myfile.xml")
+#' d <- read_softmax6_xml("myfile.xml")
 #' }
-read_softmax_xml <- function(file,
+read_softmax6_xml <- function(file,
                              platesAsFactors = TRUE,
                              wellsAsFactors = TRUE) {
     datafile <- xml2::read_xml(file)
@@ -61,7 +61,7 @@ read_softmax_xml <- function(file,
         list(
             plates = lapply(
                 X = plates,
-                FUN = read_softmax_xml_plate,
+                FUN = read_softmax6_xml_plate,
                 platesAsFactors = platesAsFactors,
                 wellsAsFactors = wellsAsFactors
             )
