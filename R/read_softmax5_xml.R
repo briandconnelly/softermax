@@ -1,79 +1,81 @@
-# Make a tibble for each well
 read_softmax5_xml_plate_well <- function(w) {
-
-    well_name <- xml2::xml_attr(w, "wellName")
+    well_attrs <- xml2::xml_attrs(w)
     rawdata <- xml2::xml_find_first(w, ".//oneDataSet/rawData")
     timedata <- xml2::xml_find_first(w, ".//oneDataSet/timeData")
 
-    tibble::tibble(
-        Time = as.numeric(strsplit(xml2::xml_text(timedata), " ")[[1]]),
-        Well = well_name,
-        Value = as.numeric(strsplit(xml2::xml_text(rawdata), " ")[[1]])
+    structure(
+        list(
+            Time = as.numeric(strsplit(xml2::xml_text(timedata), " ")[[1]]),
+            Value = as.numeric(strsplit(xml2::xml_text(rawdata), " ")[[1]])
+        ),
+        name = well_attrs["wellName"],
+        ID = well_attrs["wellID"],
+        class = "softermaxWell"
     )
 }
 
-# Make a data frame for each plate, combining the data from each well
-read_softmax5_xml_plate <- function(p,
-                                    platesAsFactors = TRUE,
-                                    wellsAsFactors = TRUE) {
+read_softmax5_xml_plate <- function(p) {
 
     if (xml2::xml_text(p) == "") return(NA)
 
     wavelengths <- unlist(
         lapply(
-            xml2::xml_find_all(p, ".//wavelengthInfo/waveSet"),
-            function(x) as.numeric(xml2::xml_text(xml2::xml_find_first(x, ".//waveValue")))
+            X = xml2::xml_find_all(p, ".//wavelengthInfo/waveSet"),
+            FUN = function(x) as.numeric(xml2::xml_text(xml2::xml_find_first(x, ".//waveValue")))
         )
     )
-
-    d <- dplyr::bind_rows(
-        lapply(
-            xml2::xml_find_all(p, ".//wave"),
-            function(x) {
-                d <- dplyr::bind_rows(
-                    lapply(
-                        X = xml2::xml_find_all(x, ".//well"),
-                        FUN = read_softmax5_xml_plate_well
-                    )
-                )
-                d$Wavelength <- wavelengths[as.integer(xml2::xml_attr(x, "waveID"))]
-                d
-            }
-        )
-    )
-
-    d$Plate <- xml2::xml_text(xml2::xml_find_first(p, ".//plateSectionName"))
 
     temps_raw <- xml2::xml_find_first(p, ".//temperatureData")
-    d$Temperature <- as.numeric(strsplit(xml2::xml_text(temps_raw), " ")[[1]])
+    readtime_raw <- xml2::xml_text(xml2::xml_find_first(p, ".//plateReadTime"))
 
-    if (platesAsFactors) d$Plate <- forcats::as_factor(d$Plate)
-    if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
-
-    # TODO: add other attributres to the result (read time, etc.)
-
-    d
+    structure(
+        list(
+            Wavelengths = lapply(
+                X = xml2::xml_find_all(p, ".//wave"),
+                FUN = function(x) {
+                    structure(
+                        list(
+                            Wells = lapply(
+                                X = xml2::xml_find_all(x, ".//well"),
+                                FUN = read_softmax5_xml_plate_well
+                            ),
+                            Wavelength = wavelengths[as.integer(xml2::xml_attr(x, "waveID"))]
+                        ),
+                        class = "softermaxWavelength"
+                    )
+                }
+            ),
+            Temperature = as.numeric(strsplit(xml2::xml_text(temps_raw), " ")[[1]])
+        ),
+        name = xml2::xml_text(xml2::xml_find_first(p, ".//plateSectionName")),
+        type = xml2::xml_text(xml2::xml_find_first(p, ".//plateType")),
+        read_time = readr::parse_datetime(readtime_raw, format="%T %p %m/%d/%Y"),
+        instrument_info = xml2::xml_text(xml2::xml_find_first(p, ".//instrumentInfo")),
+        # TODO: other attribures
+        class = "softermaxPlate"
+    )
 }
 
-
+# Option to coerce as data.frame
 read_softmax5_xml_experiment <- function(e,
                                          experimentsAsFactors = TRUE,
                                          platesAsFactors = TRUE,
                                          wellsAsFactors = TRUE) {
     res <- structure(
         list(
-            name = xml2::xml_attr(e, "sectionName"),
             plates = lapply(
                 X = xml2::xml_find_all(e, ".//plateSection"),
-                FUN = read_softmax5_xml_plate,
-                platesAsFactors = platesAsFactors,
-                wellsAsFactors = wellsAsFactors
-            )
+                FUN = read_softmax5_xml_plate
+            ),
+            notes = NULL # TODO: get an example note
         ),
+        name = xml2::xml_attr(e, "sectionName"),
         class = "softermaxExperiment"
     )
 
+    # Remove empty plates, which seem to appear in some XML files
     res$plates <- res$plates[!is.na(res$plates)]
+
     res
 }
 
@@ -108,8 +110,7 @@ read_softmax5_xml <- function(file,
                 experimentsAsFactors = experimentsAsFactors,
                 platesAsFactors = platesAsFactors,
                 wellsAsFactors = wellsAsFactors
-            ),
-            notes = NULL # TODO: get an example note
+            )
         ),
         class = "softermax"
     )
