@@ -1,71 +1,100 @@
-# Make a tibble for each well
-read_softmax6_xml_plate_well <- function(w, plate_name) {
-    well_name <- xml2::xml_attr(w, "Name")
+# Read information about a single well <Well>
+read_softmax6_xml_plate_well <- function(w) {
+    well_attrs <- xml2::xml_attrs(w)
     rawdata <- xml2::xml_find_first(w, ".//RawData")
     timedata <- xml2::xml_find_first(w, ".//TimeData")
 
-    tibble::tibble(
-        Plate = plate_name,
-        Time = as.numeric(strsplit(xml2::xml_text(timedata), " ")[[1]]),
-        Well = well_name,
-        Value = as.numeric(strsplit(xml2::xml_text(rawdata), " ")[[1]])
+    structure(
+        list(
+            Time = as.numeric(strsplit(xml2::xml_text(timedata), " ")[[1]]),
+            Value = as.numeric(strsplit(xml2::xml_text(rawdata), " ")[[1]])
+        ),
+        name = well_attrs[["Name"]],
+        ID = well_attrs[["WellID"]],
+        Row = as.integer(well_attrs[["Row"]]),
+        Col = as.integer(well_attrs[["Col"]]),
+        class = "softermaxWell"
     )
 }
 
-# Make a data frame for each plate, combining the data from each well
-read_softmax6_xml_plate <- function(p,
-                                   platesAsFactors = TRUE,
-                                   wellsAsFactors = TRUE) {
-    plate_name <- xml2::xml_attr(p, "Name")
-    wells <- xml2::xml_find_all(p, ".//Wells/Well")
-    d <- dplyr::bind_rows(
+
+# Read information about a plate <PlateSection>
+read_softmax6_xml_plate <- function(p) {
+    plate_attrs <- xml2::xml_attrs(p)
+    inst_attrs <- xml2::xml_attrs(xml2::xml_find_first(p, ".//InstrumentSettings"))
+
+    wavelengths <- unlist(
         lapply(
-            X = wells,
-            FUN = read_softmax6_xml_plate_well,
-            plate_name = plate_name
+            X = xml2::xml_find_all(p, ".//InstrumentSettings/WavelengthSettings/Wavelength"),
+            FUN = function(x) as.numeric(xml2::xml_text(x))
         )
     )
 
     temps_raw <- xml2::xml_find_first(p, ".//TemperatureData")
-    d$Temperature <- as.numeric(strsplit(xml2::xml_text(temps_raw), " ")[[1]])
-
-    if (platesAsFactors) d$Plate <- forcats::as_factor(d$Plate)
-    if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
-
-    d
-}
-
-
-#' Read a SoftMax Pro XML File
-#'
-#' TODO
-#'
-#' @param file Either a path to a file, a connection, or literal data (either a single string or a raw vector).
-#' @param platesAsFactors Logical value indicating whether or not plate names should be factors (default: \code{TRUE})
-#' @param wellsAsFactors Logical value indicating whether or not well labels should be factors (default: \code{TRUE})
-#'
-#' @return A softermax object (list)
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' d <- read_softmax6_xml("myfile.xml")
-#' }
-read_softmax6_xml <- function(file,
-                             platesAsFactors = TRUE,
-                             wellsAsFactors = TRUE) {
-    datafile <- xml2::read_xml(file)
-    plates <- xml2::xml_find_all(datafile, ".//PlateSections/PlateSection")
 
     structure(
         list(
+            wavelengths = lapply(
+                X = xml2::xml_find_all(p, ".//Wavelengths/Wavelength"),
+                FUN = function(x) {
+                    structure(
+                        list(
+                            wells = lapply(
+                                X = xml2::xml_find_all(x, ".//Well"),
+                                FUN = read_softmax6_xml_plate_well
+                            )
+                        ),
+                        wavelength = wavelengths[as.integer(xml2::xml_attr(x, "WavelengthIndex"))],
+                        class = "softermaxWavelength"
+                    )
+                }
+            ),
+            temperature = as.numeric(strsplit(xml2::xml_text(temps_raw), " ")[[1]])
+        ),
+        name = plate_attrs[["Name"]],
+        type = inst_attrs[["PlateType"]],
+        barcode = xml2::xml_text(xml2::xml_find_first(p, ".//Barcode")),
+        read_time = readr::parse_datetime(plate_attrs[["ReadTime"]], format = "%T %p %m/%d/%Y"),
+        instrument_info = plate_attrs[["InstrumentInfo"]],
+        instrument_settings = list(
+            read_mode = inst_attrs[["ReadMode"]],
+            read_type = inst_attrs[["ReadType"]],
+            # TODO: <Automix>
+            # TODO: <MoreSettings>
+            wavelengths = wavelengths
+        ),
+        class = "softermaxPlate"
+    )
+
+}
+
+read_softmax6_xml_experiment <- function(e) {
+    structure(
+        list(
             plates = lapply(
-                X = plates,
-                FUN = read_softmax6_xml_plate,
-                platesAsFactors = platesAsFactors,
-                wellsAsFactors = wellsAsFactors
+                X = xml2::xml_find_all(e, ".//PlateSections/PlateSection"),
+                FUN = read_softmax6_xml_plate
             )
         ),
-        class = "softermax"
+        name = "unknown",
+        class = "softermaxExperiment"
+    )
+}
+
+
+#' @rdname read_softmax_xml
+#' @export
+read_softmax6_xml <- function(file) {
+
+    datafile <- xml2::read_xml(file)
+
+    #experiments <- xml2::xml_find_all(datafile, ".//Experiment")
+    #cat(sprintf("EXPERIMENTS (%d): %s\n", length(experiments), experiments))
+
+    structure(
+        list(
+            experiments = list(read_softmax6_xml_experiment(datafile))
+        ),
+        class = c("softermax", "softermax6")
     )
 }

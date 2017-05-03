@@ -4,11 +4,11 @@ softermax
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 [![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![BSD License](https://img.shields.io/badge/license-BSD-brightgreen.svg)](https://opensource.org/licenses/BSD-2-Clause) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/softermax)](https://cran.r-project.org/package=softermax)
 
-Read microtiter plate data exported from [Molecular Devices](https://www.moleculardevices.com) [SoftMax Pro](https://www.moleculardevices.com/systems/microplate-readers/softmax-pro-7-software) into R. At the moment, only XML data are supported, which requires SoftMax Pro version 6 or 7.
+Read microtiter plate data exported from [Molecular Devices](https://www.moleculardevices.com) [SoftMax Pro](https://www.moleculardevices.com/systems/microplate-readers/softmax-pro-7-software) into R. At the moment, only XML data are supported, which requires SoftMax Pro version 5 or greater.
 
-**Note:** Although this package is working, it's still at an early stage, so function and parameter names may change as things settle.
+**Note:** Although this package is working, it's still at an early stage, so the API isn't yet stable. Function and parameter names may change.
 
-**Help:** I only have access to data produced by one machine and one version of SoftMax Pro, so any feedback is really apprecaited. [Please let me know](https://github.com/briandconnelly/softermax/issues) if the package works for you or if you run into problems.
+**Help:** I only have access to data produced by one machine and one version of SoftMax Pro, so any feedback is really apprecaited. [Please let me know](https://github.com/briandconnelly/softermax/issues) if the package works for you or if you run into problems. I do not have access to SoftMax Pro 7, so this version may not be supported. I'd be grateful for any donated v7 XML files. Big thanks to [Bryon Drown](https://github.com/bdrown) for sending sample files from version 5.4!
 
 Installation
 ------------
@@ -44,27 +44,30 @@ The `read_softmax_xml` function can read XML files exported by SoftMax Pro. Just
 ``` r
 library(softermax)
 
-d <- read_softmax_xml("crystal_violet_dilutions.xml")
+cvdata <- read_softmax_xml("crystal_violet_dilutions.xml")
 ```
 
-The variable `d` is an object that contains information about your experiment. Most importantly, `d$plates` is a list where each element is a data frame (actually a [tibble](https://cran.r-project.org/package=tibble)) with information about each well in that plate. For this example data, there is only one plate. Let's take a look at the first ten rows:
+The variable `d` is an object that contains information about your experiment(s). Most importantly, each experiment has a list of `plates` with read data. For this example data, there is only one experiment, with one plate, which was read at one wavelength. First, we can convert it to a data frame and look at the first ten rows:
 
 ``` r
-head(d$plates[[1]], n = 10)
+cvdata_df <- as.data.frame(cvdata)
+head(cvdata_df, n = 10)
 ```
 
-| Plate  |  Time| Well |   Value|  Temperature|
-|:-------|-----:|:-----|-------:|------------:|
-| Plate1 |    NA| A1   |  4.0000|           37|
-| Plate1 |    NA| A2   |  4.0000|           37|
-| Plate1 |    NA| A3   |  4.0000|           37|
-| Plate1 |    NA| A4   |  4.0000|           37|
-| Plate1 |    NA| A5   |  4.0000|           37|
-| Plate1 |    NA| A6   |  4.0000|           37|
-| Plate1 |    NA| A7   |  4.0000|           37|
-| Plate1 |    NA| A8   |  2.7609|           37|
-| Plate1 |    NA| A9   |  1.5331|           37|
-| Plate1 |    NA| A10  |  0.8534|           37|
+| Experiment | Plate  |  Time|  Temperature|  Wavelength| Well |   Value|
+|:-----------|:-------|-----:|------------:|-----------:|:-----|-------:|
+| unknown    | Plate1 |    NA|           37|         595| A1   |  4.0000|
+| unknown    | Plate1 |    NA|           37|         595| A2   |  4.0000|
+| unknown    | Plate1 |    NA|           37|         595| A3   |  4.0000|
+| unknown    | Plate1 |    NA|           37|         595| A4   |  4.0000|
+| unknown    | Plate1 |    NA|           37|         595| A5   |  4.0000|
+| unknown    | Plate1 |    NA|           37|         595| A6   |  4.0000|
+| unknown    | Plate1 |    NA|           37|         595| A7   |  4.0000|
+| unknown    | Plate1 |    NA|           37|         595| A8   |  2.7609|
+| unknown    | Plate1 |    NA|           37|         595| A9   |  1.5331|
+| unknown    | Plate1 |    NA|           37|         595| A10  |  0.8534|
+
+Importantly, XML files created by SoftMax Pro version 6 do not differentiate among different experiments, and they do not include the experiment name, so the `Experiment` column will contain "unknown". **This means that when multiple experiments contain plates with the same name, SoftMax Pro 6 XML files will attribute multiple plates with the same name to the same (single) experiment. When coerced to a data frame, you will not be able to differentiate among them!** Be careful.
 
 #### Exporting the Data
 
@@ -72,11 +75,11 @@ At this point, you can also save the plate data to a file. For example, we could
 
 ``` r
 # Option 1: Base R
-write.csv(d$plates[[1]], file = "cv_dilutions-plate1.csv")
+write.csv(cvdata_df, file = "cv_dilutions-plate1.csv")
 
 
 # Option 2: Using the readr package
-readr::write_csv(d$plates[[1]], path = "cv_dilutions-plate1.csv")
+readr::write_csv(cvdata_df, path = "cv_dilutions-plate1.csv")
 ```
 
 You could also write the data to Google Sheets with [googlesheets](https://github.com/jennybc/googlesheets).
@@ -89,7 +92,7 @@ Since this was a *static read*, we can quickly make a plot of the readings for e
 library(dplyr)
 library(microtiterr)
 
-platedata <- d$plates[[1]] %>%
+platedata <- cvdata_df %>%
     mutate(Row = well_row(Well), Column = well_column(Well))
 ```
 

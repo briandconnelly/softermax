@@ -18,12 +18,16 @@ knitr::opts_chunk$set(
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/softermax)](https://cran.r-project.org/package=softermax)
 
 Read microtiter plate data exported from [Molecular Devices](https://www.moleculardevices.com) [SoftMax Pro](https://www.moleculardevices.com/systems/microplate-readers/softmax-pro-7-software) into R.
-At the moment, only XML data are supported, which requires SoftMax Pro version 6 or 7.
+At the moment, only XML data are supported, which requires SoftMax Pro version 5 or greater.
 
-**Note:** Although this package is working, it's still at an early stage, so function and parameter names may change as things settle.
+**Note:** Although this package is working, it's still at an early stage, so the API isn't yet stable.
+Function and parameter names may change.
 
 **Help:** I only have access to data produced by one machine and one version of SoftMax Pro, so any feedback is really apprecaited.
 [Please let me know](https://github.com/briandconnelly/softermax/issues) if the package works for you or if you run into problems.
+I do not have access to SoftMax Pro 7, so this version may not be supported.
+I'd be grateful for any donated v7 XML files.
+Big thanks to [Bryon Drown](https://github.com/bdrown) for sending sample files from version 5.4!
 
 
 ## Installation
@@ -64,21 +68,26 @@ For this example, I'll use one called `crystal_violet_dilutions.xml`.
 ```{r}
 library(softermax)
 
-d <- read_softmax_xml("crystal_violet_dilutions.xml")
+cvdata <- read_softmax_xml("crystal_violet_dilutions.xml")
 ```
 
-The variable `d` is an object that contains information about your experiment.
-Most importantly, `d$plates` is a list where each element is a data frame (actually a [tibble](https://cran.r-project.org/package=tibble)) with information about each well in that plate.
-For this example data, there is only one plate.
-Let's take a look at the first ten rows:
+The variable `d` is an object that contains information about your experiment(s).
+Most importantly, each experiment has a list of `plates` with read data.
+For this example data, there is only one experiment, with one plate, which was read at one wavelength.
+First, we can convert it to a data frame and look at the first ten rows:
 
 ```{r eval=FALSE}
-head(d$plates[[1]], n = 10)
+cvdata_df <- as.data.frame(cvdata)
+head(cvdata_df, n = 10)
 ```
 
 ```{r echo=FALSE}
-knitr::kable(head(d$plates[[1]], n = 10), format = "markdown")
+cvdata_df <- as.data.frame(cvdata)
+knitr::kable(head(cvdata_df, n = 10), format = "markdown")
 ```
+
+Importantly, XML files created by SoftMax Pro version 6 do not differentiate among different experiments, and they do not include the experiment name, so the `Experiment` column will contain "unknown".
+**This means that when multiple experiments contain plates with the same name, SoftMax Pro 6 XML files will attribute multiple plates with the same name to the same (single) experiment. When coerced to a data frame, you will not be able to differentiate among them!** Be careful.
 
 
 #### Exporting the Data
@@ -88,11 +97,11 @@ For example, we could save the first plate's data as a [csv](https://en.wikipedi
 
 ```{r Export CSV}
 # Option 1: Base R
-write.csv(d$plates[[1]], file = "cv_dilutions-plate1.csv")
+write.csv(cvdata_df, file = "cv_dilutions-plate1.csv")
 
 
 # Option 2: Using the readr package
-readr::write_csv(d$plates[[1]], path = "cv_dilutions-plate1.csv")
+readr::write_csv(cvdata_df, path = "cv_dilutions-plate1.csv")
 ```
 
 You could also write the data to Google Sheets with [googlesheets](https://github.com/jennybc/googlesheets).
@@ -107,7 +116,7 @@ First, we can add Row and Column values for each well using functions from [micr
 library(dplyr)
 library(microtiterr)
 
-platedata <- d$plates[[1]] %>%
+platedata <- cvdata_df %>%
     mutate(Row = well_row(Well), Column = well_column(Well))
 ```
 

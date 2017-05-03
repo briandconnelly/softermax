@@ -86,7 +86,7 @@ as.data.frame.softermaxPlate <- function(x,
             wellsAsFactors = FALSE
         )
     )
-    d$Temperature <- x$Temperature # TODO: repeat this value
+    d$Temperature <- x$temperature # TODO: repeat this value
     d$Plate <- attr(x, "name")
 
     if (platesAsFactors) d$Plate <- forcats::as_factor(d$Plate)

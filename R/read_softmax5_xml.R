@@ -8,8 +8,8 @@ read_softmax5_xml_plate_well <- function(w) {
             Time = as.numeric(strsplit(xml2::xml_text(timedata), " ")[[1]]),
             Value = as.numeric(strsplit(xml2::xml_text(rawdata), " ")[[1]])
         ),
-        name = well_attrs["wellName"],
-        ID = well_attrs["wellID"],
+        name = well_attrs[["wellName"]],
+        ID = well_attrs[["wellID"]],
         class = "softermaxWell"
     )
 }
@@ -45,7 +45,7 @@ read_softmax5_xml_plate <- function(p) {
                     )
                 }
             ),
-            Temperature = as.numeric(strsplit(xml2::xml_text(temps_raw), " ")[[1]])
+            temperature = as.numeric(strsplit(xml2::xml_text(temps_raw), " ")[[1]])
         ),
         name = xml2::xml_text(xml2::xml_find_first(p, ".//plateSectionName")),
         type = xml2::xml_text(xml2::xml_find_first(p, ".//plateType")),
@@ -59,16 +59,12 @@ read_softmax5_xml_plate <- function(p) {
             num_reads = as.integer(xml2::xml_text(xml2::xml_find_first(p, ".//instrumentSettings/noOfReads"))),
             wavelengths = wavelengths
         ),
-        # TODO: other attribures
         class = "softermaxPlate"
     )
 }
 
-# Option to coerce as data.frame
-read_softmax5_xml_experiment <- function(e,
-                                         experimentsAsFactors = TRUE,
-                                         platesAsFactors = TRUE,
-                                         wellsAsFactors = TRUE) {
+
+read_softmax5_xml_experiment <- function(e) {
     res <- structure(
         list(
             plates = lapply(
@@ -88,24 +84,9 @@ read_softmax5_xml_experiment <- function(e,
 }
 
 
-#' Read a SoftMax Pro v5 XML File
-#'
-#' @param file Either a path to a file, a connection, or literal data (either a single string or a raw vector).
-#' @param experimentsAsFactors Logical value indicating whether or not experiment names should be factors (default: \code{TRUE})
-#' @param platesAsFactors Logical value indicating whether or not plate names should be factors (default: \code{TRUE})
-#' @param wellsAsFactors Logical value indicating whether or not well labels should be factors (default: \code{TRUE})
-#'
-#' @return TODO
+#' @rdname read_softmax_xml
 #' @export
-#'
-#' @examples
-#' \dontrun{
-#' d <- read_softmax5_xml("myfile.xml")
-#' }
-read_softmax5_xml <- function(file,
-                              experimentsAsFactors = TRUE,
-                              platesAsFactors = TRUE,
-                              wellsAsFactors = TRUE) {
+read_softmax5_xml <- function(file) {
 
     datafile <- xml2::read_xml(file)
     xml2::xml_ns_strip(datafile)
@@ -114,12 +95,12 @@ read_softmax5_xml <- function(file,
         list(
             experiments = lapply(
                 X = xml2::xml_find_all(datafile, ".//experimentSection"),
-                FUN = read_softmax5_xml_experiment,
-                experimentsAsFactors = experimentsAsFactors,
-                platesAsFactors = platesAsFactors,
-                wellsAsFactors = wellsAsFactors
+                FUN = read_softmax5_xml_experiment
             )
         ),
-        class = "softermax"
+        file_version = xml2::xml_text(
+            xml2::xml_find_first(datafile, ".//fileVersion")
+        ),
+        class = c("softermax", "softermax5")
     )
 }
