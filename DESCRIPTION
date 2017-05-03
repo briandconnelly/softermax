@@ -16,6 +16,4 @@ Imports: dplyr,
     forcats,
     magrittr,
     readr,
-    tibble,
     xml2
-Suggests: tidyr
