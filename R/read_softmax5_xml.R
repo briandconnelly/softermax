@@ -20,7 +20,7 @@ read_softmax5_xml_plate <- function(p) {
 
     wavelengths <- unlist(
         lapply(
-            X = xml2::xml_find_all(p, ".//wavelengthInfo/waveSet"),
+            X = xml2::xml_find_all(p, ".//instrumentSettings/wavelengthInfo/waveSet"),
             FUN = function(x) as.numeric(xml2::xml_text(xml2::xml_find_first(x, ".//waveValue")))
         )
     )
@@ -30,17 +30,17 @@ read_softmax5_xml_plate <- function(p) {
 
     structure(
         list(
-            Wavelengths = lapply(
+            wavelengths = lapply(
                 X = xml2::xml_find_all(p, ".//wave"),
                 FUN = function(x) {
                     structure(
                         list(
-                            Wells = lapply(
+                            wells = lapply(
                                 X = xml2::xml_find_all(x, ".//well"),
                                 FUN = read_softmax5_xml_plate_well
-                            ),
-                            Wavelength = wavelengths[as.integer(xml2::xml_attr(x, "waveID"))]
+                            )
                         ),
+                        wavelength = wavelengths[as.integer(xml2::xml_attr(x, "waveID"))],
                         class = "softermaxWavelength"
                     )
                 }
@@ -49,8 +49,16 @@ read_softmax5_xml_plate <- function(p) {
         ),
         name = xml2::xml_text(xml2::xml_find_first(p, ".//plateSectionName")),
         type = xml2::xml_text(xml2::xml_find_first(p, ".//plateType")),
-        read_time = readr::parse_datetime(readtime_raw, format="%T %p %m/%d/%Y"),
+        num_wells = as.integer(xml2::xml_text(xml2::xml_find_first(p, ".//microplateData/noOfWells"))),
+        read_time = readr::parse_datetime(readtime_raw, format = "%T %p %m/%d/%Y"),
         instrument_info = xml2::xml_text(xml2::xml_find_first(p, ".//instrumentInfo")),
+        instrument_settings = list(
+            read_mode = xml2::xml_text(xml2::xml_find_first(p, ".//instrumentSettings/readMode")),
+            read_type = xml2::xml_text(xml2::xml_find_first(p, ".//instrumentSettings/readType")),
+            abs_data_type = xml2::xml_text(xml2::xml_find_first(p, ".//instrumentSettings/absDataType")),
+            num_reads = as.integer(xml2::xml_text(xml2::xml_find_first(p, ".//instrumentSettings/noOfReads"))),
+            wavelengths = wavelengths
+        ),
         # TODO: other attribures
         class = "softermaxPlate"
     )

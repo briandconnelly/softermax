@@ -6,7 +6,7 @@
 \alias{as.data.frame.softermaxPlate}
 \alias{as.data.frame.softermaxWavelength}
 \alias{as.data.frame.softermaxWell}
-\title{TODO}
+\title{Coerce SoftMax Pro data into data frames}
 \usage{
 \method{as.data.frame}{softermax}(x, experimentsAsFactors = TRUE,
   platesAsFactors = TRUE, wellsAsFactors = TRUE, ...)
@@ -24,23 +24,26 @@
 \arguments{
 \item{x}{A \code{softermaxPlate} object}
 
-\item{experimentsAsFactors}{TODO}
+\item{experimentsAsFactors}{Logical value indicating whether or not
+experiment names should be treated as factors (default: \code{TRUE})}
 
-\item{platesAsFactors}{TODO}
+\item{platesAsFactors}{Logical value indicating whether or not plate names
+should be treated as factors (default: \code{TRUE})}
 
-\item{wellsAsFactors}{TODO}
+\item{wellsAsFactors}{Logical value indicating whether or not well names
+(e.g., "H5") should be treated as factors (default: \code{TRUE})}
 
-\item{...}{TODO}
+\item{...}{Additional parameters (not used)}
 }
 \value{
 A data frame
 }
 \description{
-TODO
+Coerce SoftMax Pro data into data frames
 }
 \examples{
 \dontrun{
-TODO
+d <- as.data.frame(read_softmax_xml("myfile.xml"))
 }
 
 }
