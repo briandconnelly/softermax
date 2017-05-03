@@ -3,8 +3,6 @@ title: softermax
 output: github_document
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -109,7 +107,7 @@ You could also write the data to Google Sheets with [googlesheets](https://githu
 
 ### Plotting the Data
 
-Since this was a *static read*, we can quickly make a plot of the readings for each well.
+Since this was a *static* (or *endpoint*) read, we can quickly make a plot of the readings for each well.
 First, we can add Row and Column values for each well using functions from [microtiterr](https://github.com/briandconnelly/microtiterr).
 
 ```{r message=FALSE}

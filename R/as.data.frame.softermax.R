@@ -1,6 +1,7 @@
 #' Coerce SoftMax Pro data into data frames
 #'
 #' @param x A \code{softermaxPlate} object
+#' @inheritParams base::as.data.frame
 #' @param experimentsAsFactors Logical value indicating whether or not
 #' experiment names should be treated as factors (default: \code{TRUE})
 #' @param platesAsFactors Logical value indicating whether or not plate names
@@ -18,6 +19,8 @@
 #' }
 #'
 as.data.frame.softermax <- function(x,
+                                    row.names = NULL,
+                                    optional = FALSE,
                                     experimentsAsFactors = TRUE,
                                     platesAsFactors = TRUE,
                                     wellsAsFactors = TRUE,
@@ -26,6 +29,8 @@ as.data.frame.softermax <- function(x,
         lapply(
             X = x$experiments,
             FUN = as.data.frame,
+            row.names = row.names,
+            optional = optional,
             experimentsAsFactors = FALSE,
             platesAsFactors = FALSE,
             wellsAsFactors = FALSE)
@@ -35,22 +40,15 @@ as.data.frame.softermax <- function(x,
     if (platesAsFactors) d$Plate <- forcats::as_factor(d$Plate)
     if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
 
-    d %>%
-        dplyr::select(
-            Experiment,
-            Plate,
-            Time,
-            Temperature,
-            Wavelength,
-            Well,
-            Value
-        )
+    d[c("Experiment", "Plate", "Temperature", "Wavelength", "Well", "Time", "Value")]
 }
 
 
 #' @rdname as.data.frame.softermax
 #' @export
 as.data.frame.softermaxExperiment <- function(x,
+                                              row.names = NULL,
+                                              optional = FALSE,
                                               experimentsAsFactors = TRUE,
                                               platesAsFactors = TRUE,
                                               wellsAsFactors = TRUE,
@@ -59,6 +57,8 @@ as.data.frame.softermaxExperiment <- function(x,
         lapply(
             X = x$plates,
             FUN = as.data.frame,
+            row.names = row.names,
+            optional = FALSE,
             platesAsFactors = FALSE,
             wellsAsFactors = FALSE
         )
@@ -69,13 +69,15 @@ as.data.frame.softermaxExperiment <- function(x,
     if (platesAsFactors) d$Plate <- forcats::as_factor(d$Plate)
     if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
 
-    d
+    d[c("Experiment", "Plate", "Temperature", "Wavelength", "Well", "Time", "Value")]
 }
 
 
 #' @rdname as.data.frame.softermax
 #' @export
 as.data.frame.softermaxPlate <- function(x,
+                                         row.names = NULL,
+                                         optional = FALSE,
                                          platesAsFactors = TRUE,
                                          wellsAsFactors = TRUE,
                                          ...) {
@@ -83,6 +85,8 @@ as.data.frame.softermaxPlate <- function(x,
         lapply(
             X = x$wavelengths,
             FUN = as.data.frame,
+            row.names = NULL,
+            optional = FALSE,
             wellsAsFactors = FALSE
         )
     )
@@ -92,33 +96,47 @@ as.data.frame.softermaxPlate <- function(x,
     if (platesAsFactors) d$Plate <- forcats::as_factor(d$Plate)
     if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
 
-    d
+    d[c("Plate", "Temperature", "Wavelength", "Well", "Time", "Value")]
 }
 
 
 #' @rdname as.data.frame.softermax
 #' @export
 as.data.frame.softermaxWavelength <- function(x,
+                                              row.names = NULL,
+                                              optional = FALSE,
                                               wellsAsFactors = TRUE,
                                               ...) {
-    d <- dplyr::bind_rows(lapply(x$wells, as.data.frame))
+    d <- dplyr::bind_rows(
+        lapply(
+            X = x$wells,
+            FUN = as.data.frame,
+            row.names = row.names,
+            optional = optional
+        )
+    )
     d$Wavelength <- attr(x, "wavelength")
 
     if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
 
-    d
+    d[c("Wavelength", "Well", "Time", "Value")]
 }
 
 
 #' @rdname as.data.frame.softermax
 #' @export
-as.data.frame.softermaxWell <- function(x, wellsAsFactors = TRUE, ...) {
-    data.frame(
+as.data.frame.softermaxWell <- function(x,
+                                        row.names = NULL,
+                                        optional = FALSE,
+                                        ...) {
+    d <- data.frame(
         Well = attr(x, "name"),
         #ID = attr(x, "ID"),
         Time = x$Time,
         Value = x$Value,
-        row.names = NULL,
+        row.names = row.names,
+        #optional = optional,
         stringsAsFactors = FALSE
     )
+    d[c("Well", "Time", "Value")]
 }

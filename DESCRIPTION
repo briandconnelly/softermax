@@ -18,3 +18,4 @@ Imports: dplyr,
     readr,
     tibble,
     xml2
+Suggests: tidyr

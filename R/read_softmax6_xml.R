@@ -69,7 +69,7 @@ read_softmax6_xml_plate <- function(p) {
 }
 
 read_softmax6_xml_experiment <- function(e) {
-    structure(
+    d <- structure(
         list(
             plates = lapply(
                 X = xml2::xml_find_all(e, ".//PlateSections/PlateSection"),
@@ -79,17 +79,27 @@ read_softmax6_xml_experiment <- function(e) {
         name = "unknown",
         class = "softermaxExperiment"
     )
+
+    plate_names <- sapply(X = d$plates, FUN = function(x) attr(x, "name"))
+    dup_names = find_duplicate_strings(plate_names)
+    if (length(dup_names) > 0) {
+        warning(
+            sprintf(
+                "Experiment contains multiple plates with name(s): %s",
+                paste0(dup_names, collapse = ", ")
+            ),
+            call. = FALSE
+        )
+    }
+
+    d
 }
 
 
 #' @rdname read_softmax_xml
 #' @export
 read_softmax6_xml <- function(file) {
-
     datafile <- xml2::read_xml(file)
-
-    #experiments <- xml2::xml_find_all(datafile, ".//Experiment")
-    #cat(sprintf("EXPERIMENTS (%d): %s\n", length(experiments), experiments))
 
     structure(
         list(
