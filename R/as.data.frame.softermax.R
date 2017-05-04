@@ -25,7 +25,8 @@ as.data.frame.softermax <- function(x,
                                     platesAsFactors = TRUE,
                                     wellsAsFactors = TRUE,
                                     ...) {
-    d <- dplyr::bind_rows(
+    d <- do.call(
+        "rbind",
         lapply(
             X = x$experiments,
             FUN = as.data.frame,
@@ -53,7 +54,8 @@ as.data.frame.softermaxExperiment <- function(x,
                                               platesAsFactors = TRUE,
                                               wellsAsFactors = TRUE,
                                               ...) {
-    d <- dplyr::bind_rows(
+    d <- do.call(
+        "rbind",
         lapply(
             X = x$plates,
             FUN = as.data.frame,
@@ -63,6 +65,7 @@ as.data.frame.softermaxExperiment <- function(x,
             wellsAsFactors = FALSE
         )
     )
+
     d$Experiment <- attr(x, "name")
 
     if (experimentsAsFactors) d$Experiment <- forcats::as_factor(d$Experiment)
@@ -81,7 +84,8 @@ as.data.frame.softermaxPlate <- function(x,
                                          platesAsFactors = TRUE,
                                          wellsAsFactors = TRUE,
                                          ...) {
-    d <- dplyr::bind_rows(
+    d <- do.call(
+        "rbind",
         lapply(
             X = x$wavelengths,
             FUN = as.data.frame,
@@ -90,6 +94,7 @@ as.data.frame.softermaxPlate <- function(x,
             wellsAsFactors = FALSE
         )
     )
+
     d$Temperature <- x$temperature # TODO: repeat this value
     d$Plate <- attr(x, "name")
 
@@ -107,7 +112,8 @@ as.data.frame.softermaxWavelength <- function(x,
                                               optional = FALSE,
                                               wellsAsFactors = TRUE,
                                               ...) {
-    d <- dplyr::bind_rows(
+    d <- do.call(
+        "rbind",
         lapply(
             X = x$wells,
             FUN = as.data.frame,
@@ -115,6 +121,7 @@ as.data.frame.softermaxWavelength <- function(x,
             optional = optional
         )
     )
+
     d$Wavelength <- attr(x, "wavelength")
 
     if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)

@@ -2,6 +2,7 @@
 
 * `as.data.frame` functions: column order change in resulting data frames
 * `as.data.frame` functions: explicit `row.names` and `optional` parameters for compatability with generic
+* `as.data.frame` functions: using rbind to combine dfs, removing dplyr dependency.
 * Added `experiment_names` and `plate_names` functions to extract experiment names and plate names
 * `read_softmax6_xml` now warns if experiment contains multiple plates with the same name
 
