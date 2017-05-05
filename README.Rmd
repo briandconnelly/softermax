@@ -21,11 +21,32 @@ At the moment, only XML data are supported, which requires SoftMax Pro version 5
 **Note:** Although this package is working, it's still at an early stage, so the API isn't yet stable.
 Function and parameter names may change.
 
-**Help:** I only have access to data produced by one machine and one version of SoftMax Pro, so any feedback is really apprecaited.
 [Please let me know](https://github.com/briandconnelly/softermax/issues) if the package works for you or if you run into problems.
+
+
+## Development Status
+
+|                      | SoftMax 5\* | SoftMax 6 | SoftMax 7\*\* |
+|----------------------|:---------:|:---------:|:---------:|
+| Multiple Experiments | x         | N/A\*\*\* |            |
+| Multiple Plates      | x         | x         |           |
+| Cuvettes             |           |           |           |
+| Endpoint Reads       | x         | x         |           |
+| Kinetic Reads        | x         | x         |           |
+| Absorbance           | x         | x         |           |
+| Fluorescence         |           |           |           |
+| Luminescence         |           |           |           |
+| Notes                |           | N/A       |           |
+
+\* Big thanks to [Bryon Drown](https://github.com/bdrown) for sending sample files from version 5.4!
+
+\*\* Sample files from SoftMax Pro 7 needed
+
+\*\*\* SoftMax Pro 6 exports all plates, etc. into one experiment. Notes cannot exported.
+
+**Help!** I only have access to data produced by one machine and one version of SoftMax Pro (6.4), so any sample data or feedback is really apprecaited.
 I do not have access to SoftMax Pro 7, so this version may not be supported.
-I'd be grateful for any donated v7 XML files.
-Big thanks to [Bryon Drown](https://github.com/bdrown) for sending sample files from version 5.4!
+Similarly, I do not work with cuvettes, so I could also use sample data for them.
 
 
 ## Installation

@@ -1,14 +1,36 @@
 softermax
 ================
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 [![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![BSD License](https://img.shields.io/badge/license-BSD-brightgreen.svg)](https://opensource.org/licenses/BSD-2-Clause) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/softermax)](https://cran.r-project.org/package=softermax)
 
 Read microtiter plate data exported from [Molecular Devices](https://www.moleculardevices.com) [SoftMax Pro](https://www.moleculardevices.com/systems/microplate-readers/softmax-pro-7-software) into R. At the moment, only XML data are supported, which requires SoftMax Pro version 5 or greater.
 
 **Note:** Although this package is working, it's still at an early stage, so the API isn't yet stable. Function and parameter names may change.
 
-**Help:** I only have access to data produced by one machine and one version of SoftMax Pro, so any feedback is really apprecaited. [Please let me know](https://github.com/briandconnelly/softermax/issues) if the package works for you or if you run into problems. I do not have access to SoftMax Pro 7, so this version may not be supported. I'd be grateful for any donated v7 XML files. Big thanks to [Bryon Drown](https://github.com/bdrown) for sending sample files from version 5.4!
+[Please let me know](https://github.com/briandconnelly/softermax/issues) if the package works for you or if you run into problems.
+
+Development Status
+------------------
+
+|                      | SoftMax 5\* | SoftMax 6 | SoftMax 7\*\* |
+|----------------------|:-----------:|:---------:|:-------------:|
+| Multiple Experiments |      x      | N/A\*\*\* |               |
+| Multiple Plates      |      x      |     x     |               |
+| Cuvettes             |             |           |               |
+| Endpoint Reads       |      x      |     x     |               |
+| Kinetic Reads        |      x      |     x     |               |
+| Absorbance           |      x      |     x     |               |
+| Fluorescence         |             |           |               |
+| Luminescence         |             |           |               |
+| Notes                |             |    N/A    |               |
+
+\* Big thanks to [Bryon Drown](https://github.com/bdrown) for sending sample files from version 5.4!
+
+\*\* Sample files from SoftMax Pro 7 needed
+
+\*\*\* SoftMax Pro 6 exports all plates, etc. into one experiment. Notes cannot exported.
+
+**Help!** I only have access to data produced by one machine and one version of SoftMax Pro (6.4), so any sample data or feedback is really apprecaited. I do not have access to SoftMax Pro 7, so this version may not be supported. Similarly, I do not work with cuvettes, so I could also use sample data for them.
 
 Installation
 ------------
@@ -54,18 +76,18 @@ cvdata_df <- as.data.frame(cvdata)
 head(cvdata_df, n = 10)
 ```
 
-| Experiment | Plate  |  Time|  Temperature|  Wavelength| Well |   Value|
-|:-----------|:-------|-----:|------------:|-----------:|:-----|-------:|
-| unknown    | Plate1 |    NA|           37|         595| A1   |  4.0000|
-| unknown    | Plate1 |    NA|           37|         595| A2   |  4.0000|
-| unknown    | Plate1 |    NA|           37|         595| A3   |  4.0000|
-| unknown    | Plate1 |    NA|           37|         595| A4   |  4.0000|
-| unknown    | Plate1 |    NA|           37|         595| A5   |  4.0000|
-| unknown    | Plate1 |    NA|           37|         595| A6   |  4.0000|
-| unknown    | Plate1 |    NA|           37|         595| A7   |  4.0000|
-| unknown    | Plate1 |    NA|           37|         595| A8   |  2.7609|
-| unknown    | Plate1 |    NA|           37|         595| A9   |  1.5331|
-| unknown    | Plate1 |    NA|           37|         595| A10  |  0.8534|
+| Experiment | Plate  |  Temperature|  Wavelength| Well |  Time|   Value|
+|:-----------|:-------|------------:|-----------:|:-----|-----:|-------:|
+| unknown    | Plate1 |           37|         595| A1   |    NA|  4.0000|
+| unknown    | Plate1 |           37|         595| A2   |    NA|  4.0000|
+| unknown    | Plate1 |           37|         595| A3   |    NA|  4.0000|
+| unknown    | Plate1 |           37|         595| A4   |    NA|  4.0000|
+| unknown    | Plate1 |           37|         595| A5   |    NA|  4.0000|
+| unknown    | Plate1 |           37|         595| A6   |    NA|  4.0000|
+| unknown    | Plate1 |           37|         595| A7   |    NA|  4.0000|
+| unknown    | Plate1 |           37|         595| A8   |    NA|  2.7609|
+| unknown    | Plate1 |           37|         595| A9   |    NA|  1.5331|
+| unknown    | Plate1 |           37|         595| A10  |    NA|  0.8534|
 
 Importantly, XML files created by SoftMax Pro version 6 do not differentiate among different experiments, and they do not include the experiment name, so the `Experiment` column will contain "unknown". **This means that when multiple experiments contain plates with the same name, SoftMax Pro 6 XML files will attribute multiple plates with the same name to the same (single) experiment. When coerced to a data frame, you will not be able to differentiate among them!** Be careful.
 
@@ -86,7 +108,7 @@ You could also write the data to Google Sheets with [googlesheets](https://githu
 
 ### Plotting the Data
 
-Since this was a *static read*, we can quickly make a plot of the readings for each well. First, we can add Row and Column values for each well using functions from [microtiterr](https://github.com/briandconnelly/microtiterr).
+Since this was a *static* (or *endpoint*) read, we can quickly make a plot of the readings for each well. First, we can add Row and Column values for each well using functions from [microtiterr](https://github.com/briandconnelly/microtiterr).
 
 ``` r
 library(dplyr)

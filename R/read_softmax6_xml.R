@@ -1,8 +1,30 @@
-# Read information about a single well <Well>
-read_softmax6_xml_plate_well <- function(w) {
+# Read absorbance information about a single well <Well>
+read_softmax6_xml_plate_well_absorbance <- function(w) {
     well_attrs <- xml2::xml_attrs(w)
     rawdata <- xml2::xml_find_first(w, ".//RawData")
     timedata <- xml2::xml_find_first(w, ".//TimeData")
+
+    structure(
+        list(
+            Time = as.numeric(strsplit(xml2::xml_text(timedata), " ")[[1]]),
+            Value = as.numeric(strsplit(xml2::xml_text(rawdata), " ")[[1]])
+        ),
+        name = well_attrs[["Name"]],
+        ID = well_attrs[["WellID"]],
+        Row = as.integer(well_attrs[["Row"]]),
+        Col = as.integer(well_attrs[["Col"]]),
+        class = "softermaxWell"
+    )
+}
+
+
+# Read luminescence information about a single well <Well>
+read_softmax6_xml_plate_well_luminescence <- function(w) {
+    well_attrs <- xml2::xml_attrs(w)
+    rawdata <- xml2::xml_find_first(w, ".//RawData")
+    timedata <- xml2::xml_find_first(w, ".//TimeData")
+
+    cat("LOOKING AT A LUMINESCENCE WELL\n")
 
     structure(
         list(
@@ -32,6 +54,13 @@ read_softmax6_xml_plate <- function(p) {
 
     temps_raw <- xml2::xml_find_first(p, ".//TemperatureData")
 
+    # TODO: maybe don't stop(), but just don't read the unsupported plate?
+    read_mode <- inst_attrs[["ReadMode"]]
+    well_fn <- switch(read_mode,
+                      "Absorbance" = read_softmax6_xml_plate_well_absorbance,
+                      #"Luminescence" = read_softmax6_xml_plate_well_luminescence,
+                      stop(sprintf("'%s' read mode is unsupported", read_mode), call. = FALSE))
+
     structure(
         list(
             wavelengths = lapply(
@@ -41,7 +70,7 @@ read_softmax6_xml_plate <- function(p) {
                         list(
                             wells = lapply(
                                 X = xml2::xml_find_all(x, ".//Well"),
-                                FUN = read_softmax6_xml_plate_well
+                                FUN = well_fn
                             )
                         ),
                         wavelength = wavelengths[as.integer(xml2::xml_attr(x, "WavelengthIndex"))],
