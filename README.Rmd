@@ -26,17 +26,18 @@ Function and parameter names may change.
 
 ## Development Status
 
-|                      | SoftMax 5\* | SoftMax 6 | SoftMax 7\*\* |
-|----------------------|:---------:|:---------:|:---------:|
-| Multiple Experiments | x         | N/A\*\*\* |            |
-| Multiple Plates      | x         | x         |           |
-| Cuvettes             |           |           |           |
-| Endpoint Reads       | x         | x         |           |
-| Kinetic Reads        | x         | x         |           |
-| Absorbance           | x         | x         |           |
-| Fluorescence         |           |           |           |
-| Luminescence         |           |           |           |
-| Notes                |           | N/A       |           |
+|                        | SoftMax 5\* | SoftMax 6 | SoftMax 7\*\* |
+|------------------------|:-----------:|:---------:|:-------------:|
+| Multiple Experiments   | x           | N/A\*\*\* |               |
+| Multiple Plates        | x           | x         |               |
+| Cuvettes               |             |           |               |
+| Endpoint Reads         | x           | x         |               |
+| Kinetic Reads          | x           | x         |               |
+| Absorbance             | x           | x         |               |
+| Fluorescence           |             |           |               |
+| Luminescence           |             |           |               |
+| Plate Templates        |             | x         |               |
+| Notes                  |             | N/A\*\*\* |               |
 
 \* Big thanks to [Bryon Drown](https://github.com/bdrown) for sending sample files from version 5.4!
 

@@ -5,6 +5,7 @@
 * `as.data.frame` functions: using rbind to combine dfs, removing dplyr dependency.
 * Added `experiment_names` and `plate_names` functions to extract experiment names and plate names
 * `read_softmax6_xml` now warns if experiment contains multiple plates with the same name
+* Added `read_softmax6_template` for importing plate templates
 
 
 # softermax 0.2.0
