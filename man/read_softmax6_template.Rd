@@ -5,7 +5,8 @@
 \title{Read a SoftMax Pro 6 Template File}
 \usage{
 read_softmax6_template(file, include_unspecified = FALSE,
-  zeropad_wells = FALSE, ...)
+  zeropad_wells = FALSE, wellsAsFactors = TRUE, groupsAsFactors = TRUE,
+  typesAsFactors = TRUE, encoding = "UCS-2LE", ...)
 }
 \arguments{
 \item{file}{Either a path to a file, a connection, or literal data (either a
@@ -16,6 +17,23 @@ not (\code{FALSE}) to include non-annotated wells (default: \code{FALSE})}
 
 \item{zeropad_wells}{Logical value indicating whether or not well names should
 be zero padded (e.g., "A04") (default: \code{FALSE})}
+
+\item{wellsAsFactors}{Logical value indicating whether or not well names
+(e.g., "H5") should be treated as factors (default: \code{TRUE})}
+
+\item{groupsAsFactors}{Logical value indicating whether or not groups
+should be treated as factors (default: \code{TRUE})}
+
+\item{typesAsFactors}{Logical value indicating whether or not types
+should be treated as factors (default: \code{TRUE})}
+
+\item{encoding}{encoding to be assumed for input strings.  It is
+    used to mark character strings as known to be in
+    Latin-1 or UTF-8 (see \code{\link{Encoding}}): it is not used to
+    re-encode the input, but allows \R to handle encoded strings in
+    their native encoding (if one of those two).  See \sQuote{Value}
+    and \sQuote{Note}.
+  }
 
 \item{...}{Additional parameters (not used)}
 }
