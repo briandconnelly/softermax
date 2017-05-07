@@ -1,27 +1,5 @@
-#' Read a SoftMax Pro 6 Template File
-#'
-#' @param file Either a path to a file, a connection, or literal data (either a
-#' single string or a raw vector).
-#' @param include_unspecified Logical value indicating whether (\code{TRUE}) or
-#' not (\code{FALSE}) to include non-annotated wells (default: \code{FALSE})
-#' @param zeropad_wells Logical value indicating whether or not well names should
-#' be zero padded (e.g., "A04") (default: \code{FALSE})
-#' @param wellsAsFactors Logical value indicating whether or not well names
-#' (e.g., "H5") should be treated as factors (default: \code{TRUE})
-#' @param groupsAsFactors Logical value indicating whether or not groups
-#' should be treated as factors (default: \code{TRUE})
-#' @param typesAsFactors Logical value indicating whether or not types
-#' should be treated as factors (default: \code{TRUE})
-#' @inheritParams utils::read.table
-#' @param ... Additional parameters (not used)
-#'
-#' @return A data frame
+#' @rdname read_softmax_template
 #' @export
-#'
-#' @examples
-#' \dontrun{
-#' t1 <- read_softmax6_template("plate_template.txt")
-#' }
 read_softmax6_template <- function(file,
                                    include_unspecified = FALSE,
                                    zeropad_wells = FALSE,
