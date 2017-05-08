@@ -23,7 +23,7 @@ Development Status
 | Fluorescence         |             |           |               |
 | Luminescence         |             |           |               |
 | Plate Templates      |             |     x     |               |
-| Notes                |             | N/A\*\*\* |               |
+| Notes                |      x      | N/A\*\*\* |               |
 
 \* Big thanks to [Bryon Drown](https://github.com/bdrown) for sending sample files from version 5.4!
 
