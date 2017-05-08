@@ -1,7 +1,3 @@
-#' @importFrom magrittr %>%
-#' @export
-magrittr::`%>%`
-
 
 # Find duplicate values in a list of strings
 find_duplicate_strings <- function(x) {

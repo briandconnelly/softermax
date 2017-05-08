@@ -25,13 +25,13 @@
 #'
 
 read_softmax_template <- function(file,
-                                   include_unspecified = FALSE,
-                                   zeropad_wells = FALSE,
-                                   wellsAsFactors = TRUE,
-                                   groupsAsFactors = TRUE,
-                                   typesAsFactors = TRUE,
-                                   encoding = "UCS-2LE",
-                                   ...) {
+                                  include_unspecified = FALSE,
+                                  zeropad_wells = FALSE,
+                                  wellsAsFactors = TRUE,
+                                  groupsAsFactors = TRUE,
+                                  typesAsFactors = TRUE,
+                                  encoding = "UCS-2LE",
+                                  ...) {
     warning("Using read_softmax6_template", call. = FALSE)
 
     read_softmax6_template(file = file,

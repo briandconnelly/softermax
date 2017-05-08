@@ -17,12 +17,12 @@ read_softmax6_template <- function(file,
             "Group",
             "Type",
             "Sample",
-            "Desc1Name",  # Desc1?
-            "Desc1Value", # Desc1Value
-            "Desc1Units",
-            "Desc2Name",
-            "Desc2Value",
-            "Desc2Units",
+            "Descriptor1.Name",
+            "Descriptor1.Value",
+            "Descriptor1.Units",
+            "Descriptor2.Name",
+            "Descriptor2.Value",
+            "Descriptor2.Units",
             "HANGING"
         ),
         blank.lines.skip = TRUE,
@@ -33,7 +33,7 @@ read_softmax6_template <- function(file,
     d <- subset(d, select = -HANGING)
 
     if (include_unspecified == FALSE) {
-        d <- d[d$Type != "" & d$Desc1Name != "", ]
+        d <- d[d$Type != "" & d$Descriptor1.Name != "", ]
     }
 
     if (zeropad_wells == FALSE) {

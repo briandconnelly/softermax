@@ -66,7 +66,6 @@ read_softmax5_xml_plate <- function(p) {
     )
 
     names(d$wavelengths) <- list_attrs(d$wavelengths, "wavelength")
-
     d
 }
 

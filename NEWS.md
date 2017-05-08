@@ -1,3 +1,10 @@
+# softermax NEXT
+
+* Added ReadMode column to `as.data.frame` to better support multi-mode experiments
+* Fixed issue with `as.data.frame` where row.names were being set
+* Removed magrittr from Imports. No longer exporting pipe, which hasn't been used for many versions.
+
+
 # softermax 0.2.1
 
 * Specific experiments, plates, etc. can now be accessed by name

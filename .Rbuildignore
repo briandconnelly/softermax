@@ -9,3 +9,4 @@
 ^README-.*\.png$
 ^testdata$
 ^testing.R$
+^NOTES\.md$

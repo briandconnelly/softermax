@@ -30,18 +30,17 @@ as.data.frame.softermax <- function(x,
         lapply(
             X = x$experiments,
             FUN = as.data.frame,
-            row.names = row.names,
-            optional = optional,
             experimentsAsFactors = FALSE,
             platesAsFactors = FALSE,
             wellsAsFactors = FALSE)
     )
 
+    row.names(d) <- row.names
     if (experimentsAsFactors) d$Experiment <- forcats::as_factor(d$Experiment)
     if (platesAsFactors) d$Plate <- forcats::as_factor(d$Plate)
     if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
 
-    d[c("Experiment", "Plate", "Temperature", "Wavelength", "Well", "Time", "Value")]
+    d[c("Experiment", "Plate", "ReadMode", "Temperature", "Wavelength", "Well", "Time", "Value")]
 }
 
 
@@ -59,20 +58,19 @@ as.data.frame.softermaxExperiment <- function(x,
         lapply(
             X = x$plates,
             FUN = as.data.frame,
-            row.names = row.names,
-            optional = FALSE,
             platesAsFactors = FALSE,
             wellsAsFactors = FALSE
         )
     )
 
+    row.names(d) <- row.names
     d$Experiment <- attr(x, "name")
 
     if (experimentsAsFactors) d$Experiment <- forcats::as_factor(d$Experiment)
     if (platesAsFactors) d$Plate <- forcats::as_factor(d$Plate)
     if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
 
-    d[c("Experiment", "Plate", "Temperature", "Wavelength", "Well", "Time", "Value")]
+    d[c("Experiment", "Plate", "ReadMode", "Temperature", "Wavelength", "Well", "Time", "Value")]
 }
 
 
@@ -89,19 +87,19 @@ as.data.frame.softermaxPlate <- function(x,
         lapply(
             X = x$wavelengths,
             FUN = as.data.frame,
-            row.names = NULL,
-            optional = FALSE,
             wellsAsFactors = FALSE
         )
     )
 
-    d$Temperature <- x$temperature # TODO: repeat this value
+    row.names(d) <- row.names
+    d$ReadMode <- attr(x, "instrument_settings")$read_mode
+    d$Temperature <- x$temperature
     d$Plate <- attr(x, "name")
 
     if (platesAsFactors) d$Plate <- forcats::as_factor(d$Plate)
     if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
 
-    d[c("Plate", "Temperature", "Wavelength", "Well", "Time", "Value")]
+    d[c("Plate", "ReadMode", "Temperature", "Wavelength", "Well", "Time", "Value")]
 }
 
 
@@ -116,12 +114,11 @@ as.data.frame.softermaxWavelength <- function(x,
         "rbind",
         lapply(
             X = x$wells,
-            FUN = as.data.frame,
-            row.names = row.names,
-            optional = optional
+            FUN = as.data.frame
         )
     )
 
+    row.names(d) <- row.names
     d$Wavelength <- attr(x, "wavelength")
 
     if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
@@ -142,7 +139,6 @@ as.data.frame.softermaxWell <- function(x,
         Time = x$Time,
         Value = x$Value,
         row.names = row.names,
-        #optional = optional,
         stringsAsFactors = FALSE
     )
     d[c("Well", "Time", "Value")]
