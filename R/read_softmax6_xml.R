@@ -61,12 +61,12 @@ read_softmax6_xml_plate <- function(p) {
                       #"Luminescence" = read_softmax6_xml_plate_well_luminescence,
                       stop(sprintf("'%s' read mode is unsupported", read_mode), call. = FALSE))
 
-    structure(
+    d <- structure(
         list(
             wavelengths = lapply(
                 X = xml2::xml_find_all(p, ".//Wavelengths/Wavelength"),
                 FUN = function(x) {
-                    structure(
+                    d <- structure(
                         list(
                             wells = lapply(
                                 X = xml2::xml_find_all(x, ".//Well"),
@@ -76,6 +76,9 @@ read_softmax6_xml_plate <- function(p) {
                         wavelength = wavelengths[as.integer(xml2::xml_attr(x, "WavelengthIndex"))],
                         class = "softermaxWavelength"
                     )
+
+                    names(d$wells) <- list_attrs(d$wells, "name")
+                    d
                 }
             ),
             temperature = as.numeric(strsplit(xml2::xml_text(temps_raw), " ")[[1]])
@@ -95,6 +98,8 @@ read_softmax6_xml_plate <- function(p) {
         class = "softermaxPlate"
     )
 
+    names(d$wavelengths) <- list_attrs(d$wavelengths, "wavelength")
+    d
 }
 
 read_softmax6_xml_experiment <- function(e) {
@@ -103,13 +108,14 @@ read_softmax6_xml_experiment <- function(e) {
             plates = lapply(
                 X = xml2::xml_find_all(e, ".//PlateSections/PlateSection"),
                 FUN = read_softmax6_xml_plate
-            )
+            ),
+            notes = list()
         ),
         name = "unknown",
         class = "softermaxExperiment"
     )
 
-    plate_names <- sapply(X = d$plates, FUN = function(x) attr(x, "name"))
+    plate_names <- list_attrs(d$plates, "name")
     dup_names = find_duplicate_strings(plate_names)
     if (length(dup_names) > 0) {
         warning(
@@ -121,6 +127,8 @@ read_softmax6_xml_experiment <- function(e) {
         )
     }
 
+    names(d$plates) <- plate_names
+
     d
 }
 
@@ -130,10 +138,13 @@ read_softmax6_xml_experiment <- function(e) {
 read_softmax6_xml <- function(file) {
     datafile <- xml2::read_xml(file)
 
-    structure(
+    d <- structure(
         list(
             experiments = list(read_softmax6_xml_experiment(datafile))
         ),
         class = c("softermax", "softermax6")
     )
+
+    names(d$experiments) <- list_attrs(d$experiments, "name")
+    d
 }

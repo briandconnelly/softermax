@@ -28,12 +28,12 @@ read_softmax5_xml_plate <- function(p) {
     temps_raw <- xml2::xml_find_first(p, ".//temperatureData")
     readtime_raw <- xml2::xml_text(xml2::xml_find_first(p, ".//plateReadTime"))
 
-    structure(
+    d <- structure(
         list(
             wavelengths = lapply(
                 X = xml2::xml_find_all(p, ".//wave"),
                 FUN = function(x) {
-                    structure(
+                    d <- structure(
                         list(
                             wells = lapply(
                                 X = xml2::xml_find_all(x, ".//well"),
@@ -43,6 +43,9 @@ read_softmax5_xml_plate <- function(p) {
                         wavelength = wavelengths[as.integer(xml2::xml_attr(x, "waveID"))],
                         class = "softermaxWavelength"
                     )
+
+                    names(d$wells) <- list_attrs(d$wells, "name")
+                    d
                 }
             ),
             temperature = as.numeric(strsplit(xml2::xml_text(temps_raw), " ")[[1]])
@@ -61,6 +64,24 @@ read_softmax5_xml_plate <- function(p) {
         ),
         class = "softermaxPlate"
     )
+
+    names(d$wavelengths) <- list_attrs(d$wavelengths, "wavelength")
+
+    d
+}
+
+
+read_softmax5_xml_note <- function(n) {
+    structure(
+        list(
+            text_data = lapply(
+                X = xml2::xml_find_all(n, ".//noteData/textData"),
+                FUN = function(x) xml2::xml_text(x)
+            )
+        ),
+        name = xml2::xml_text(xml2::xml_find_first(n, ".//noteSectionName")),
+        class = "softermaxNote"
+    )
 }
 
 
@@ -71,11 +92,17 @@ read_softmax5_xml_experiment <- function(e) {
                 X = xml2::xml_find_all(e, ".//plateSection"),
                 FUN = read_softmax5_xml_plate
             ),
-            notes = NULL # TODO: get an example note
+            notes = lapply(
+                X = xml2::xml_find_all(e, ".//noteSection"),
+                FUN = read_softmax5_xml_note
+            )
         ),
         name = xml2::xml_attr(e, "sectionName"),
         class = "softermaxExperiment"
     )
+
+    names(res$plates) <- list_attrs(res$plates, "name")
+    names(res$notes) <- list_attrs(res$notes, "name")
 
     # Remove empty plates, which seem to appear in some XML files
     res$plates <- res$plates[!is.na(res$plates)]
@@ -91,7 +118,7 @@ read_softmax5_xml <- function(file) {
     datafile <- xml2::read_xml(file)
     xml2::xml_ns_strip(datafile)
 
-    structure(
+    d <- structure(
         list(
             experiments = lapply(
                 X = xml2::xml_find_all(datafile, ".//experimentSection"),
@@ -103,4 +130,7 @@ read_softmax5_xml <- function(file) {
         ),
         class = c("softermax", "softermax5")
     )
+
+    names(d$experiments) <- list_attrs(d$experiments, "name")
+    d
 }

@@ -16,7 +16,7 @@ read_softmax6_template <- function(file,
             "Well",
             "Group",
             "Type",
-            "SampleName", # Sample?
+            "Sample",
             "Desc1Name",  # Desc1?
             "Desc1Value", # Desc1Value
             "Desc1Units",
@@ -45,7 +45,9 @@ read_softmax6_template <- function(file,
 
     if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
     if (groupsAsFactors) d$Group <- forcats::as_factor(d$Group)
-    if (typesAsFactors) d$Type <- forcats::as_factor(d$Type)
+    if (typesAsFactors) {
+        d$Type <- factor(d$Type, levels = c("Standards", "Unknowns", "Custom"))
+    }
 
     class(d) <- c("data.frame", "softermaxTemplate")
     d
