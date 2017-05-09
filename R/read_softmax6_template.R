@@ -8,7 +8,7 @@ read_softmax6_template <- function(file,
                                    typesAsFactors = TRUE,
                                    encoding = "UCS-2LE",
                                    ...) {
-    d <- read.delim(
+    d <- utils::read.delim(
         file = file,
         header = FALSE,
         skip = 1,

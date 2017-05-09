@@ -116,7 +116,7 @@ read_softmax6_xml_experiment <- function(e) {
     )
 
     plate_names <- list_attrs(d$plates, "name")
-    dup_names = find_duplicate_strings(plate_names)
+    dup_names <- find_duplicate_strings(plate_names)
     if (length(dup_names) > 0) {
         warning(
             sprintf(
