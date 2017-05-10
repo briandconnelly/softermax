@@ -30,7 +30,7 @@ read_softmax6_template <- function(file,
         stringsAsFactors = FALSE
     )
 
-    d <- subset(d, select = -HANGING)
+    d <- d[, seq_len(length(d) - 1)]
 
     if (include_unspecified == FALSE) {
         d <- d[d$Type != "" & d$Descriptor1.Name != "", ]

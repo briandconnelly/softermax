@@ -1,7 +1,9 @@
 # softermax NEXT
 
+* Added `apply_template` to annotate read data with experiment information stored in plate templates
 * Added ReadMode column to `as.data.frame` to better support multi-mode experiments
 * Fixed issue with `as.data.frame` where row.names were being set
+* `read_softmax6_template` no longer uses subset, which required NSE and produced warnings
 * Removed magrittr from Imports. No longer exporting pipe, which hasn't been used for many versions.
 
 
