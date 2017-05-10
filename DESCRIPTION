@@ -3,7 +3,7 @@ Type: Package
 Title: Read Exported Data from SoftMax Pro
 Description: Read microtiter plate data exported from Molecular Devices SoftMax
     Pro.
-Version: 0.2.1
+Version: 0.2.2
 Authors@R: c(person(given = "Brian", family = "Connelly", email = "bdc@bconnelly.net",
                     role = c("aut", "cre"))) 
 License: BSD_2_clause + file LICENSE
