@@ -1,3 +1,9 @@
+# softermax NEXT
+
+* Added `softermax`, `softermaxExperiment`, `softermaxPlate`, `softermaxNote`, `softermaxWavelength`, `softermaxWell`
+* Using new constructors in `read_softmax5_xml` and `read_softmax6_xml`
+
+
 # softermax 0.2.2
 
 * Added `apply_template` to annotate read data with experiment information stored in plate templates

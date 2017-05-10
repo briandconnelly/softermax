@@ -93,7 +93,7 @@ as.data.frame.softermaxPlate <- function(x,
 
     row.names(d) <- row.names
     d$ReadMode <- attr(x, "instrument_settings")$read_mode
-    d$Temperature <- x$temperature
+    d$Temperature <- x$temperatures
     d$Plate <- attr(x, "name")
 
     if (platesAsFactors) d$Plate <- forcats::as_factor(d$Plate)
@@ -136,8 +136,8 @@ as.data.frame.softermaxWell <- function(x,
     d <- data.frame(
         Well = attr(x, "name"),
         #ID = attr(x, "ID"),
-        Time = x$Time,
-        Value = x$Value,
+        Time = x$times,
+        Value = x$values,
         row.names = row.names,
         stringsAsFactors = FALSE
     )
