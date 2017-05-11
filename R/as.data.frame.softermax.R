@@ -1,10 +1,12 @@
 #' Coerce SoftMax Pro data into data frames
 #'
-#' @param x A \code{softermaxPlate} object
+#' @param x A \code{softermax} object
 #' @inheritParams base::as.data.frame
 #' @param experimentsAsFactors Logical value indicating whether or not
 #' experiment names should be treated as factors (default: \code{TRUE})
 #' @param platesAsFactors Logical value indicating whether or not plate names
+#' should be treated as factors (default: \code{TRUE})
+#' @param readModesAsFactors Logical value indicating whether or not read modes
 #' should be treated as factors (default: \code{TRUE})
 #' @param wellsAsFactors Logical value indicating whether or not well names
 #' (e.g., "H5") should be treated as factors (default: \code{TRUE})
@@ -23,6 +25,7 @@ as.data.frame.softermax <- function(x,
                                     optional = FALSE,
                                     experimentsAsFactors = TRUE,
                                     platesAsFactors = TRUE,
+                                    readModesAsFactors = TRUE,
                                     wellsAsFactors = TRUE,
                                     ...) {
     d <- do.call(
@@ -36,9 +39,10 @@ as.data.frame.softermax <- function(x,
     )
 
     row.names(d) <- row.names
-    if (experimentsAsFactors) d$Experiment <- forcats::as_factor(d$Experiment)
-    if (platesAsFactors) d$Plate <- forcats::as_factor(d$Plate)
-    if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
+    if (experimentsAsFactors) d$Experiment <- as.factor(d$Experiment)
+    if (platesAsFactors) d$Plate <- as.factor(d$Plate)
+    if (readModesAsFactors) d$ReadMode <- as.factor(d$ReadMode)
+    if (wellsAsFactors) d$Well <- as.factor(d$Well)
 
     d[c("Experiment", "Plate", "ReadMode", "Temperature", "Wavelength", "Well", "Time", "Value")]
 }
@@ -46,11 +50,12 @@ as.data.frame.softermax <- function(x,
 
 #' @rdname as.data.frame.softermax
 #' @export
-as.data.frame.softermaxExperiment <- function(x,
+as.data.frame.softermax.experiment <- function(x,
                                               row.names = NULL,
                                               optional = FALSE,
                                               experimentsAsFactors = TRUE,
                                               platesAsFactors = TRUE,
+                                              readModesAsFactors = TRUE,
                                               wellsAsFactors = TRUE,
                                               ...) {
     d <- do.call(
@@ -66,9 +71,10 @@ as.data.frame.softermaxExperiment <- function(x,
     row.names(d) <- row.names
     d$Experiment <- attr(x, "name")
 
-    if (experimentsAsFactors) d$Experiment <- forcats::as_factor(d$Experiment)
-    if (platesAsFactors) d$Plate <- forcats::as_factor(d$Plate)
-    if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
+    if (experimentsAsFactors) d$Experiment <- as.factor(d$Experiment)
+    if (platesAsFactors) d$Plate <- as.factor(d$Plate)
+    if (readModesAsFactors) d$ReadMode <- as.factor(d$ReadMode)
+    if (wellsAsFactors) d$Well <- as.factor(d$Well)
 
     d[c("Experiment", "Plate", "ReadMode", "Temperature", "Wavelength", "Well", "Time", "Value")]
 }
@@ -76,10 +82,11 @@ as.data.frame.softermaxExperiment <- function(x,
 
 #' @rdname as.data.frame.softermax
 #' @export
-as.data.frame.softermaxPlate <- function(x,
+as.data.frame.softermax.plate <- function(x,
                                          row.names = NULL,
                                          optional = FALSE,
                                          platesAsFactors = TRUE,
+                                         readModesAsFactors = TRUE,
                                          wellsAsFactors = TRUE,
                                          ...) {
     d <- do.call(
@@ -96,8 +103,9 @@ as.data.frame.softermaxPlate <- function(x,
     d$Temperature <- x$temperatures
     d$Plate <- attr(x, "name")
 
-    if (platesAsFactors) d$Plate <- forcats::as_factor(d$Plate)
-    if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
+    if (platesAsFactors) d$Plate <- as.factor(d$Plate)
+    if (readModesAsFactors) d$ReadMode <- as.factor(d$ReadMode)
+    if (wellsAsFactors) d$Well <- as.factor(d$Well)
 
     d[c("Plate", "ReadMode", "Temperature", "Wavelength", "Well", "Time", "Value")]
 }
@@ -105,7 +113,7 @@ as.data.frame.softermaxPlate <- function(x,
 
 #' @rdname as.data.frame.softermax
 #' @export
-as.data.frame.softermaxWavelength <- function(x,
+as.data.frame.softermax.wavelength <- function(x,
                                               row.names = NULL,
                                               optional = FALSE,
                                               wellsAsFactors = TRUE,
@@ -121,7 +129,7 @@ as.data.frame.softermaxWavelength <- function(x,
     row.names(d) <- row.names
     d$Wavelength <- attr(x, "wavelength")
 
-    if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
+    if (wellsAsFactors) d$Well <- as.factor(d$Well)
 
     d[c("Wavelength", "Well", "Time", "Value")]
 }
@@ -129,7 +137,7 @@ as.data.frame.softermaxWavelength <- function(x,
 
 #' @rdname as.data.frame.softermax
 #' @export
-as.data.frame.softermaxWell <- function(x,
+as.data.frame.softermax.well <- function(x,
                                         row.names = NULL,
                                         optional = FALSE,
                                         ...) {

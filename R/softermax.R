@@ -1,13 +1,11 @@
 # Constructors for softermax objects
 
-softermax <- function(experiments, verstring = NULL) {
-    if (missing(experiments)) experiments = list()
-
+softermax <- function(experiments = list()) {
     x <- structure(
         list(
             experiments = experiments
         ),
-        class = c("softermax", verstring)
+        class = "softermax"
     )
 
     names(x$experiments) <- list_attrs(x$experiments, "name")
@@ -15,14 +13,14 @@ softermax <- function(experiments, verstring = NULL) {
 }
 
 
-softermaxExperiment <- function(name, plates = list(), notes = list()) {
+softermax.experiment <- function(name, plates = list(), notes = list()) {
     x <- structure(
         list(
             plates = plates,
             notes = notes
         ),
         name = name,
-        class = "softermaxExperiment"
+        class = "softermax.experiment"
     )
 
     plate_names <- list_attrs(x$plates, "name")
@@ -50,14 +48,14 @@ softermaxExperiment <- function(name, plates = list(), notes = list()) {
 }
 
 
-softermaxPlate <- function(name, wavelengths = list(), temperatures = NA) {
+softermax.plate <- function(name, wavelengths = list(), temperatures = NA) {
     x <- structure(
         list(
             wavelengths = wavelengths,
             temperatures = temperatures
         ),
         name = name,
-        class = "softermaxPlate"
+        class = "softermax.plate"
     )
 
     names(x$wavelengths) <- list_attrs(x$wavelengths, "wavelength")
@@ -65,26 +63,26 @@ softermaxPlate <- function(name, wavelengths = list(), temperatures = NA) {
 }
 
 
-softermaxNote <- function(name, text_data = list()) {
+softermax.note <- function(name, text_data = list()) {
     x <- structure(
         list(
             text_data = text_data
         ),
         name = name,
-        class = "softermaxNote"
+        class = "softermax.note"
     )
 
     x
 }
 
 
-softermaxWavelength <- function(wavelength, wells = list()) {
+softermax.wavelength <- function(wavelength, wells = list()) {
     x <- structure(
         list(
             wells = wells
         ),
         wavelength = wavelength,
-        class = "softermaxWavelength"
+        class = "softermax.wavelength"
     )
 
     names(x$wells) <- list_attrs(x$wells, "name")
@@ -92,14 +90,14 @@ softermaxWavelength <- function(wavelength, wells = list()) {
 }
 
 
-softermaxWell <- function(name, times, values) {
+softermax.well <- function(name, times, values) {
     x <- structure(
         list(
             times = times,
             values = values
         ),
         name = name,
-        class = "softermaxWell"
+        class = "softermax.well"
     )
     x
 }

@@ -7,7 +7,7 @@
 plate_names(x)
 }
 \arguments{
-\item{x}{A \code{softermaxExperiment} object containing information
+\item{x}{A \code{softermax.experiment} object containing information
 about an experiment in SoftMax Pro}
 }
 \value{

@@ -2,31 +2,32 @@
 % Please edit documentation in R/as.data.frame.softermax.R
 \name{as.data.frame.softermax}
 \alias{as.data.frame.softermax}
-\alias{as.data.frame.softermaxExperiment}
-\alias{as.data.frame.softermaxPlate}
-\alias{as.data.frame.softermaxWavelength}
-\alias{as.data.frame.softermaxWell}
+\alias{as.data.frame.softermax.experiment}
+\alias{as.data.frame.softermax.plate}
+\alias{as.data.frame.softermax.wavelength}
+\alias{as.data.frame.softermax.well}
 \title{Coerce SoftMax Pro data into data frames}
 \usage{
 \method{as.data.frame}{softermax}(x, row.names = NULL, optional = FALSE,
   experimentsAsFactors = TRUE, platesAsFactors = TRUE,
-  wellsAsFactors = TRUE, ...)
+  readModesAsFactors = TRUE, wellsAsFactors = TRUE, ...)
 
-\method{as.data.frame}{softermaxExperiment}(x, row.names = NULL,
+\method{as.data.frame}{softermax.experiment}(x, row.names = NULL,
   optional = FALSE, experimentsAsFactors = TRUE, platesAsFactors = TRUE,
+  readModesAsFactors = TRUE, wellsAsFactors = TRUE, ...)
+
+\method{as.data.frame}{softermax.plate}(x, row.names = NULL,
+  optional = FALSE, platesAsFactors = TRUE, readModesAsFactors = TRUE,
   wellsAsFactors = TRUE, ...)
 
-\method{as.data.frame}{softermaxPlate}(x, row.names = NULL,
-  optional = FALSE, platesAsFactors = TRUE, wellsAsFactors = TRUE, ...)
-
-\method{as.data.frame}{softermaxWavelength}(x, row.names = NULL,
+\method{as.data.frame}{softermax.wavelength}(x, row.names = NULL,
   optional = FALSE, wellsAsFactors = TRUE, ...)
 
-\method{as.data.frame}{softermaxWell}(x, row.names = NULL, optional = FALSE,
-  ...)
+\method{as.data.frame}{softermax.well}(x, row.names = NULL,
+  optional = FALSE, ...)
 }
 \arguments{
-\item{x}{A \code{softermaxPlate} object}
+\item{x}{A \code{softermax} object}
 
 \item{row.names}{\code{NULL} or a character vector giving the row
     names for the data frame.  Missing values are not allowed.}
@@ -42,6 +43,9 @@
 experiment names should be treated as factors (default: \code{TRUE})}
 
 \item{platesAsFactors}{Logical value indicating whether or not plate names
+should be treated as factors (default: \code{TRUE})}
+
+\item{readModesAsFactors}{Logical value indicating whether or not read modes
 should be treated as factors (default: \code{TRUE})}
 
 \item{wellsAsFactors}{Logical value indicating whether or not well names

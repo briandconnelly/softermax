@@ -3,17 +3,17 @@
 \name{apply_template}
 \alias{apply_template}
 \alias{apply_template.data.frame}
-\alias{apply_template.softermaxPlate}
+\alias{apply_template.softermax.plate}
 \title{Annotate Plate Read Data with Metadata from a Template}
 \usage{
 apply_template(plate, template, ...)
 
 \method{apply_template}{data.frame}(plate, template, ...)
 
-\method{apply_template}{softermaxPlate}(plate, template, ...)
+\method{apply_template}{softermax.plate}(plate, template, ...)
 }
 \arguments{
-\item{plate}{Either a \code{softermaxPlate} object (produced by
+\item{plate}{Either a \code{softermax.plate} object (produced by
 \code{\link{read_softmax_xml}}), or a data frame.}
 
 \item{template}{A data frame containing information about wells in a plate.

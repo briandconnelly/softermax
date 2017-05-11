@@ -1,6 +1,6 @@
 #' Return the names of all plates in an experiment
 #'
-#' @param x A \code{softermaxExperiment} object containing information
+#' @param x A \code{softermax.experiment} object containing information
 #' about an experiment in SoftMax Pro
 #'
 #' @return A vector of strings
@@ -12,5 +12,5 @@
 #' plate_names(d$experiments[[1]])
 #' }
 plate_names <- function(x) {
-    sapply(X = x$plates, FUN = function(x) attr(x, "name"))
+    unname(sapply(X = x$plates, FUN = function(x) attr(x, "name")))
 }

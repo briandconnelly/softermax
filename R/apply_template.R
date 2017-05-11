@@ -9,7 +9,7 @@
 #' necessarily also in the template), use the argument \code{all.x = TRUE}. To
 #' include all wells specified in both, use the argument \code{all = TRUE}.
 #'
-#' @param plate Either a \code{softermaxPlate} object (produced by
+#' @param plate Either a \code{softermax.plate} object (produced by
 #' \code{\link{read_softmax_xml}}), or a data frame.
 #' @param template A data frame containing information about wells in a plate.
 #' See \code{\link{read_softmax6_template}}, or create a data frame where each
@@ -52,7 +52,7 @@ apply_template.data.frame <- function(plate, template, ...) {
 
 #' @rdname apply_template
 #' @export
-apply_template.softermaxPlate <- function(plate, template, ...) {
+apply_template.softermax.plate <- function(plate, template, ...) {
     apply_template.data.frame(
         plate = as.data.frame(plate),
         template = template,

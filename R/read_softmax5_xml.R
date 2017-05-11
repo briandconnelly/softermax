@@ -3,7 +3,7 @@ read_softmax5_xml_plate_well <- function(w) {
     rawdata <- xml2::xml_find_first(w, ".//oneDataSet/rawData")
     timedata <- xml2::xml_find_first(w, ".//oneDataSet/timeData")
 
-    d <- softermaxWell(
+    d <- softermax.well(
         name = well_attrs[["wellName"]],
         times = as.numeric(strsplit(xml2::xml_text(timedata), " ")[[1]]),
         values = as.numeric(strsplit(xml2::xml_text(rawdata), " ")[[1]])
@@ -27,12 +27,12 @@ read_softmax5_xml_plate <- function(p) {
     temps_raw <- xml2::xml_find_first(p, ".//temperatureData")
     readtime_raw <- xml2::xml_text(xml2::xml_find_first(p, ".//plateReadTime"))
 
-    d <- softermaxPlate(
+    d <- softermax.plate(
         name = xml2::xml_text(xml2::xml_find_first(p, ".//plateSectionName")),
         wavelengths = lapply(
             X = xml2::xml_find_all(p, ".//wave"),
             FUN = function(x) {
-                softermaxWavelength(
+                softermax.wavelength(
                     wavelength = wavelengths[as.integer(xml2::xml_attr(x, "waveID"))],
                     wells = lapply(
                         X = xml2::xml_find_all(x, ".//well"),
@@ -61,7 +61,7 @@ read_softmax5_xml_plate <- function(p) {
 
 
 read_softmax5_xml_note <- function(n) {
-    softermaxNote(
+    softermax.note(
         name = xml2::xml_text(xml2::xml_find_first(n, ".//noteSectionName")),
         text_data = lapply(
             X = xml2::xml_find_all(n, ".//noteData/textData"),
@@ -72,7 +72,7 @@ read_softmax5_xml_note <- function(n) {
 
 
 read_softmax5_xml_experiment <- function(e) {
-    softermaxExperiment(
+    softermax.experiment(
         name = xml2::xml_attr(e, "sectionName"),
         plates = lapply(
             X = xml2::xml_find_all(e, ".//plateSection"),
@@ -97,11 +97,11 @@ read_softmax5_xml <- function(file) {
         experiments = lapply(
             X = xml2::xml_find_all(datafile, ".//experimentSection"),
             FUN = read_softmax5_xml_experiment
-        ),
-        verstring = "softermax5"
+        )
     )
     attr(d, "file_version") <- xml2::xml_text(
         xml2::xml_find_first(datafile, ".//fileVersion")
     )
+    class(d) <- append(class(d), "softermax5")
     d
 }

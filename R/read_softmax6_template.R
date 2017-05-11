@@ -43,8 +43,8 @@ read_softmax6_template <- function(file,
         )
     }
 
-    if (wellsAsFactors) d$Well <- forcats::as_factor(d$Well)
-    if (groupsAsFactors) d$Group <- forcats::as_factor(d$Group)
+    if (wellsAsFactors) d$Well <- as.factor(d$Well)
+    if (groupsAsFactors) d$Group <- as.factor(d$Group)
     if (typesAsFactors) {
         d$Type <- factor(d$Type, levels = c("Standards", "Unknowns", "Custom"))
     }

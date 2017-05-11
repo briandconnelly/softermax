@@ -4,7 +4,7 @@ read_softmax6_xml_plate_well_absorbance <- function(w) {
     rawdata <- xml2::xml_find_first(w, ".//RawData")
     timedata <- xml2::xml_find_first(w, ".//TimeData")
 
-    d <- softermaxWell(
+    d <- softermax.well(
         name = well_attrs[["Name"]],
         times = as.numeric(strsplit(xml2::xml_text(timedata), " ")[[1]]),
         values = as.numeric(strsplit(xml2::xml_text(rawdata), " ")[[1]])
@@ -39,12 +39,12 @@ read_softmax6_xml_plate <- function(p) {
                       #"Luminescence" = read_softmax6_xml_plate_well_luminescence,
                       stop(sprintf("'%s' read mode is unsupported", read_mode), call. = FALSE))
 
-    d <- softermaxPlate(
+    d <- softermax.plate(
         name = plate_attrs[["Name"]],
         wavelengths = lapply(
             X = xml2::xml_find_all(p, ".//Wavelengths/Wavelength"),
             FUN = function(x) {
-                softermaxWavelength(
+                softermax.wavelength(
                     wavelength = wavelengths[as.integer(xml2::xml_attr(x, "WavelengthIndex"))],
                     wells = lapply(
                         X = xml2::xml_find_all(x, ".//Well"),
@@ -73,7 +73,7 @@ read_softmax6_xml_plate <- function(p) {
 }
 
 read_softmax6_xml_experiment <- function(e) {
-    softermaxExperiment(
+    softermax.experiment(
         name = "unknown",
         plates = lapply(
             X = xml2::xml_find_all(e, ".//PlateSections/PlateSection"),
@@ -89,8 +89,10 @@ read_softmax6_xml_experiment <- function(e) {
 read_softmax6_xml <- function(file) {
     datafile <- xml2::read_xml(file)
 
-    softermax(
-        experiments = list(read_softmax6_xml_experiment(datafile)),
-        verstring = "softermax6"
+    d <- softermax(
+        experiments = list(read_softmax6_xml_experiment(datafile))
     )
+
+    class(d) <- append(class(d), "softermax6")
+    d
 }
