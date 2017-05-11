@@ -9,6 +9,12 @@ list_attrs <- function(x, a) {
     sapply(X = x, FUN = function(x) attr(x, a))
 }
 
+# Set multiple attributes for an object
+set_attributes <- function(x, attrs = list()) {
+    for (key in names(attrs)) attr(x, key) <- attrs[[key]]
+    x
+}
+
 # Raise an error if a required package is not installed
 stop_without_package <- function(package) {
     if (!requireNamespace(package, quietly = TRUE)) {

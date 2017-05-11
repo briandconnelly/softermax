@@ -44,7 +44,8 @@ as.data.frame.softermax <- function(x,
     if (readModesAsFactors) d$ReadMode <- as.factor(d$ReadMode)
     if (wellsAsFactors) d$Well <- as.factor(d$Well)
 
-    d[c("Experiment", "Plate", "ReadMode", "Temperature", "Wavelength", "Well", "Time", "Value")]
+    d[c("Experiment", "Plate", "ReadMode", "Temperature", "Wavelength", "Well",
+        "Time", "Value")]
 }
 
 
@@ -76,7 +77,8 @@ as.data.frame.softermax.experiment <- function(x,
     if (readModesAsFactors) d$ReadMode <- as.factor(d$ReadMode)
     if (wellsAsFactors) d$Well <- as.factor(d$Well)
 
-    d[c("Experiment", "Plate", "ReadMode", "Temperature", "Wavelength", "Well", "Time", "Value")]
+    d[c("Experiment", "Plate", "ReadMode", "Temperature", "Wavelength", "Well",
+        "Time", "Value")]
 }
 
 
@@ -107,7 +109,8 @@ as.data.frame.softermax.plate <- function(x,
     if (readModesAsFactors) d$ReadMode <- as.factor(d$ReadMode)
     if (wellsAsFactors) d$Well <- as.factor(d$Well)
 
-    d[c("Plate", "ReadMode", "Temperature", "Wavelength", "Well", "Time", "Value")]
+    d[c("Plate", "ReadMode", "Temperature", "Wavelength", "Well", "Time",
+        "Value")]
 }
 
 

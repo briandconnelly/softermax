@@ -4,17 +4,16 @@ read_softmax6_xml_plate_well_absorbance <- function(w) {
     rawdata <- xml2::xml_find_first(w, ".//RawData")
     timedata <- xml2::xml_find_first(w, ".//TimeData")
 
-    d <- softermax.well(
+    softermax.well(
         name = well_attrs[["Name"]],
         times = as.numeric(strsplit(xml2::xml_text(timedata), " ")[[1]]),
-        values = as.numeric(strsplit(xml2::xml_text(rawdata), " ")[[1]])
+        values = as.numeric(strsplit(xml2::xml_text(rawdata), " ")[[1]]),
+        attrs = list(
+            "ID" = well_attrs[["WellID"]],
+            "row" = as.integer(well_attrs[["Row"]]),
+            "col" = as.integer(well_attrs[["Col"]])
+        )
     )
-
-    attr(d, "ID") <- well_attrs[["WellID"]]
-    attr(d, "row") <- as.integer(well_attrs[["Row"]])
-    attr(d, "col") <- as.integer(well_attrs[["Col"]])
-
-    d
 }
 
 
@@ -39,7 +38,7 @@ read_softmax6_xml_plate <- function(p) {
                       #"Luminescence" = read_softmax6_xml_plate_well_luminescence,
                       stop(sprintf("'%s' read mode is unsupported", read_mode), call. = FALSE))
 
-    d <- softermax.plate(
+    softermax.plate(
         name = plate_attrs[["Name"]],
         wavelengths = lapply(
             X = xml2::xml_find_all(p, ".//Wavelengths/Wavelength"),
@@ -54,22 +53,21 @@ read_softmax6_xml_plate <- function(p) {
 
             }
         ),
-        temperatures = as.numeric(strsplit(xml2::xml_text(temps_raw), " ")[[1]])
+        temperatures = as.numeric(strsplit(xml2::xml_text(temps_raw), " ")[[1]]),
+        attrs = list(
+            type = inst_attrs[["PlateType"]],
+            barcode = xml2::xml_text(xml2::xml_find_first(p, ".//Barcode")),
+            read_time = readr::parse_datetime(plate_attrs[["ReadTime"]], format = "%T %p %m/%d/%Y"),
+            instrument_info = plate_attrs[["InstrumentInfo"]],
+            instrument_settings = list(
+                read_mode = inst_attrs[["ReadMode"]],
+                read_type = inst_attrs[["ReadType"]],
+                # TODO: <Automix>
+                # TODO: <MoreSettings>
+                wavelengths = wavelengths
+            )
+        )
     )
-
-    attr(d, "type") <- inst_attrs[["PlateType"]]
-    attr(d, "barcode") <- xml2::xml_text(xml2::xml_find_first(p, ".//Barcode"))
-    attr(d, "read_time") <- readr::parse_datetime(plate_attrs[["ReadTime"]], format = "%T %p %m/%d/%Y")
-    attr(d, "instrument_info") <- plate_attrs[["InstrumentInfo"]]
-    attr(d, "instrument_settings") <- list(
-        read_mode = inst_attrs[["ReadMode"]],
-        read_type = inst_attrs[["ReadType"]],
-        # TODO: <Automix>
-        # TODO: <MoreSettings>
-        wavelengths = wavelengths
-    )
-
-    d
 }
 
 read_softmax6_xml_experiment <- function(e) {
