@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/softermax)](https://cran.r-project.org/package=softermax)
 
 Read microtiter plate data exported from [Molecular Devices](https://www.moleculardevices.com) [SoftMax Pro](https://www.moleculardevices.com/systems/microplate-readers/softmax-pro-7-software) into R.
-At the moment, only XML data are supported, which requires SoftMax Pro version 5 or greater.
+At the moment, only XML data are supported, which requires SoftMax Pro version 5.4 or greater.
 
 **Note:** Although this package is working, it's still at an early stage, so the API isn't yet stable.
 Function and parameter names may change.

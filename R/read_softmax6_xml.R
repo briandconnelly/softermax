@@ -9,9 +9,9 @@ read_softmax6_xml_plate_well_absorbance <- function(w) {
         times = as.numeric(strsplit(xml2::xml_text(timedata), " ")[[1]]),
         values = as.numeric(strsplit(xml2::xml_text(rawdata), " ")[[1]]),
         attrs = list(
-            "ID" = well_attrs[["WellID"]],
-            "row" = as.integer(well_attrs[["Row"]]),
-            "col" = as.integer(well_attrs[["Col"]])
+            ID = well_attrs[["WellID"]],
+            row = as.integer(well_attrs[["Row"]]),
+            col = as.integer(well_attrs[["Col"]])
         )
     )
 }

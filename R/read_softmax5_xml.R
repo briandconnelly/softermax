@@ -7,7 +7,7 @@ read_softmax5_xml_plate_well <- function(w) {
         name = well_attrs[["wellName"]],
         times = as.numeric(strsplit(xml2::xml_text(timedata), " ")[[1]]),
         values = as.numeric(strsplit(xml2::xml_text(rawdata), " ")[[1]]),
-        attrs = list("ID" = well_attrs[["wellID"]])
+        attrs = list(ID = well_attrs[["wellID"]])
     )
 }
 
