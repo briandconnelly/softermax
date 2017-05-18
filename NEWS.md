@@ -1,8 +1,10 @@
-# softermax NEXT
+# softermax 0.2.3
 
-* Added `softermax`, `softermax.experiment`, `softermax.plate`, `softermax.note`, `softermax.wavelength`, `softermax.well` constructors
-* Using new constructors in `read_softmax5_xml` and `read_softmax6_xml`
+* Added `read_softmax5_template`
+* Added `softermax`, `softermax.experiment`, `softermax.plate`, `softermax.note`, `softermax.wavelength`, `softermax.well`, `softermax.template` constructors
+* Using new constructors in `read_softmax5_xml`, `read_softmax6_xml`, `read_softmax5_template`, and `read_softmax6_template`
 * `as.data.frame` functions: ReadMode can now be factors (the default behavior) via `readModesAsFactors` argument
+* `read_softmax6_template`: Sample field now always treated as character
 * Removed forcats dependency for package lightness
 
 

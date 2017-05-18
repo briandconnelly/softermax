@@ -30,7 +30,13 @@ read_softmax6_template <- function(file,
         stringsAsFactors = FALSE
     )
 
+    # Remove the HANGING column
     d <- d[, seq_len(length(d) - 1)]
+
+    # Make sure the Sample field is treated as a string
+    if (!is.character(d$Sample)) {
+        d$Sample <- as.character(d$Sample)
+    }
 
     if (include_unspecified == FALSE) {
         d <- d[d$Type != "" & d$Descriptor1.Name != "", ]
@@ -43,12 +49,10 @@ read_softmax6_template <- function(file,
         )
     }
 
-    if (wellsAsFactors) d$Well <- as.factor(d$Well)
-    if (groupsAsFactors) d$Group <- as.factor(d$Group)
-    if (typesAsFactors) {
-        d$Type <- factor(d$Type, levels = c("Standards", "Unknowns", "Custom"))
-    }
-
-    class(d) <- c("data.frame", "softermaxTemplate")
-    d
+    softermax.template(
+        d,
+        wellsAsFactors = wellsAsFactors,
+        groupsAsFactors = groupsAsFactors,
+        typesAsFactors = typesAsFactors
+    )
 }

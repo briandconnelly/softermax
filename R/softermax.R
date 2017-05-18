@@ -114,3 +114,26 @@ softermax.well <- function(name, times, values, attrs = list()) {
     x <- set_attributes(x, attrs)
     x
 }
+
+
+softermax.template <- function(x,
+                              wellsAsFactors = TRUE,
+                              groupsAsFactors = TRUE,
+                              typesAsFactors = TRUE) {
+
+    if (wellsAsFactors) x$Well <- as.factor(x$Well)
+    if (groupsAsFactors) x$Group <- as.factor(x$Group)
+    if (typesAsFactors) x$Type <- as.factor(x$Type)
+
+    # Add extra columns to match V6 output
+    if (!"Descriptor2.Name" %in% names(x)) {
+        x$Descriptor2.Name <- NA
+        x$Descriptor2.Value <- NA
+        x$Descriptor2.Units <- NA
+    }
+
+    class(x) <- append(class(x), "softermax.template")
+    x[c("Well", "Group", "Type", "Sample", "Descriptor1.Name",
+        "Descriptor1.Value", "Descriptor1.Units", "Descriptor2.Name",
+        "Descriptor2.Value", "Descriptor2.Units")]
+}

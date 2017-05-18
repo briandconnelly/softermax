@@ -36,7 +36,8 @@ be zero padded (e.g., "A04") (default: \code{FALSE})}
 should be treated as factors (default: \code{TRUE})}
 
 \item{typesAsFactors}{Logical value indicating whether or not types
-should be treated as factors (default: \code{TRUE})}
+should be treated as factors (default: \code{TRUE}). The set of valid types
+supported by SoftMax Pro differs from version to version.}
 
 \item{encoding}{encoding to be assumed for input strings.  It is
     used to mark character strings as known to be in
@@ -53,6 +54,10 @@ A data frame
 }
 \description{
 Read a SoftMax Pro Template File
+}
+\note{
+Different versions of SoftMax Pro write units differently. For example,
+v5.2 uses "l" for liters, while v6.4 uses "L".
 }
 \examples{
 \dontrun{

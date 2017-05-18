@@ -33,6 +33,7 @@ read_softmax5_template <- function(file,
 
     # Add Well names
     x <- expand.grid(Row = LETTERS[1:8], Col = 1:12)
+    if (zeropad_wells) x$Col <- sprintf("%02d", x$Col)
     x$Well <- paste0(x$Row, x$Col)
     d$Well <- c(x[order(x$Row), ]$Well)
 
@@ -41,23 +42,10 @@ read_softmax5_template <- function(file,
         d <- d[d$Type != "" & !is.na(d$DescriptionNumber), ]
     }
 
-    if (wellsAsFactors) d$Well <- as.factor(d$Well)
-    if (groupsAsFactors) d$Group <- as.factor(d$Group)
-    if (typesAsFactors) {
-        d$Type <- factor(
-            d$Type,
-            levels = c("Empty", "Basic", "Standards", "Unknowns",
-                       "Unknowns[Dilution]")
-        )
-    }
-
-    # Add extra columns to match V6 output
-    d$Descriptor2.Name <- NA
-    d$Descriptor2.Value <- NA
-    d$Descriptor2.Units <- NA
-
-    class(d) <- append(class(d), "softermaxTemplate")
-    d[c("Well", "Group", "Type", "Sample", "Descriptor1.Name",
-        "Descriptor1.Value", "Descriptor1.Units", "Descriptor2.Name",
-        "Descriptor2.Value", "Descriptor2.Units")]
+    softermax.template(
+        d,
+        wellsAsFactors = wellsAsFactors,
+        groupsAsFactors = groupsAsFactors,
+        typesAsFactors = typesAsFactors
+    )
 }

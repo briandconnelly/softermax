@@ -12,18 +12,18 @@ Read microtiter plate data exported from [Molecular Devices](https://www.molecul
 Development Status
 ------------------
 
-|                      | SoftMax 5\* | SoftMax 6 | SoftMax 7\*\* |
-|----------------------|:-----------:|:---------:|:-------------:|
-| Multiple Experiments |      x      | N/A\*\*\* |               |
-| Multiple Plates      |      x      |     x     |               |
-| Cuvettes             |             |           |               |
-| Endpoint Reads       |      x      |     x     |               |
-| Kinetic Reads        |      x      |     x     |               |
-| Absorbance           |      x      |     x     |               |
-| Fluorescence         |             |           |               |
-| Luminescence         |             |           |               |
-| Plate Templates      |             |     x     |               |
-| Notes                |      x      | N/A\*\*\* |               |
+|                      | SoftMax Pro 5\* | SoftMax Pro 6 | SoftMax Pro 7\*\* |
+|----------------------|:---------------:|:-------------:|:-----------------:|
+| Multiple Experiments |        x        |   N/A\*\*\*   |                   |
+| Multiple Plates      |        x        |       x       |                   |
+| Cuvettes             |                 |               |                   |
+| Endpoint Reads       |        x        |       x       |                   |
+| Kinetic Reads        |        x        |       x       |                   |
+| Absorbance           |        x        |       x       |                   |
+| Fluorescence         |                 |               |                   |
+| Luminescence         |                 |               |                   |
+| Plate Templates      |        x        |       x       |                   |
+| Notes                |        x        |   N/A\*\*\*   |                   |
 
 \* Big thanks to [Bryon Drown](https://github.com/bdrown) for sending sample files from version 5.4!
 
@@ -77,18 +77,18 @@ cvdata_df <- as.data.frame(cvdata)
 head(cvdata_df, n = 10)
 ```
 
-| Experiment | Plate  |  Temperature|  Wavelength| Well |  Time|   Value|
-|:-----------|:-------|------------:|-----------:|:-----|-----:|-------:|
-| unknown    | Plate1 |           37|         595| A1   |    NA|  4.0000|
-| unknown    | Plate1 |           37|         595| A2   |    NA|  4.0000|
-| unknown    | Plate1 |           37|         595| A3   |    NA|  4.0000|
-| unknown    | Plate1 |           37|         595| A4   |    NA|  4.0000|
-| unknown    | Plate1 |           37|         595| A5   |    NA|  4.0000|
-| unknown    | Plate1 |           37|         595| A6   |    NA|  4.0000|
-| unknown    | Plate1 |           37|         595| A7   |    NA|  4.0000|
-| unknown    | Plate1 |           37|         595| A8   |    NA|  2.7609|
-| unknown    | Plate1 |           37|         595| A9   |    NA|  1.5331|
-| unknown    | Plate1 |           37|         595| A10  |    NA|  0.8534|
+| Experiment | Plate  | ReadMode   |  Temperature|  Wavelength| Well |  Time|   Value|
+|:-----------|:-------|:-----------|------------:|-----------:|:-----|-----:|-------:|
+| unknown    | Plate1 | Absorbance |           37|         595| A1   |    NA|  4.0000|
+| unknown    | Plate1 | Absorbance |           37|         595| A2   |    NA|  4.0000|
+| unknown    | Plate1 | Absorbance |           37|         595| A3   |    NA|  4.0000|
+| unknown    | Plate1 | Absorbance |           37|         595| A4   |    NA|  4.0000|
+| unknown    | Plate1 | Absorbance |           37|         595| A5   |    NA|  4.0000|
+| unknown    | Plate1 | Absorbance |           37|         595| A6   |    NA|  4.0000|
+| unknown    | Plate1 | Absorbance |           37|         595| A7   |    NA|  4.0000|
+| unknown    | Plate1 | Absorbance |           37|         595| A8   |    NA|  2.7609|
+| unknown    | Plate1 | Absorbance |           37|         595| A9   |    NA|  1.5331|
+| unknown    | Plate1 | Absorbance |           37|         595| A10  |    NA|  0.8534|
 
 Importantly, XML files created by SoftMax Pro version 6 do not differentiate among different experiments, and they do not include the experiment name, so the `Experiment` column will contain "unknown". **This means that when multiple experiments contain plates with the same name, SoftMax Pro 6 XML files will attribute multiple plates with the same name to the same (single) experiment. When coerced to a data frame, you will not be able to differentiate among them!** Be careful.
 

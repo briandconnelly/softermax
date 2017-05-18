@@ -11,8 +11,11 @@
 #' @param groupsAsFactors Logical value indicating whether or not groups
 #' should be treated as factors (default: \code{TRUE})
 #' @param typesAsFactors Logical value indicating whether or not types
-#' should be treated as factors (default: \code{TRUE})
+#' should be treated as factors (default: \code{TRUE}). The set of valid types
+#' supported by SoftMax Pro differs from version to version.
 #' @inheritParams utils::read.table
+#' @note Different versions of SoftMax Pro write units differently. For example,
+#' v5.2 uses "l" for liters, while v6.4 uses "L".
 #' @param ... Additional parameters (not used)
 #'
 #' @return A data frame
