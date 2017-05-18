@@ -27,7 +27,8 @@ read_softmax6_template <- function(file,
         ),
         blank.lines.skip = TRUE,
         fileEncoding = encoding,
-        stringsAsFactors = FALSE
+        stringsAsFactors = FALSE,
+        ...
     )
 
     # Remove the HANGING column

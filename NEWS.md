@@ -1,3 +1,8 @@
+# softermax NEXT
+
+* TODO
+
+
 # softermax 0.2.3
 
 * Added `read_softmax5_template`

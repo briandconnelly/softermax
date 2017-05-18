@@ -16,7 +16,7 @@
 #' @inheritParams utils::read.table
 #' @note Different versions of SoftMax Pro write units differently. For example,
 #' v5.2 uses "l" for liters, while v6.4 uses "L".
-#' @param ... Additional parameters (not used)
+#' @param ... Additional parameters passed to \code{\link[utils]{read.delim}}
 #'
 #' @return A data frame
 #' @export

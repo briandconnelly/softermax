@@ -47,7 +47,7 @@ supported by SoftMax Pro differs from version to version.}
     and \sQuote{Note}.
   }
 
-\item{...}{Additional parameters (not used)}
+\item{...}{Additional parameters passed to \code{\link[utils]{read.delim}}}
 }
 \value{
 A data frame
