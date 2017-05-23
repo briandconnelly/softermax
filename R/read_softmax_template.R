@@ -33,7 +33,7 @@ read_softmax_template <- function(file,
                                   wellsAsFactors = TRUE,
                                   groupsAsFactors = TRUE,
                                   typesAsFactors = TRUE,
-                                  encoding = "UCS-2LE",
+                                  #encoding = "UTF-16",
                                   ...) {
     warning("Using read_softmax6_template", call. = FALSE)
 
@@ -43,6 +43,6 @@ read_softmax_template <- function(file,
                            wellsAsFactors = wellsAsFactors,
                            groupsAsFactors = groupsAsFactors,
                            typesAsFactors = typesAsFactors,
-                           encoding = encoding,
+                           #encoding = encoding,
                            ...)
 }

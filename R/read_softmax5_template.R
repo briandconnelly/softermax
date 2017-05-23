@@ -6,7 +6,7 @@ read_softmax5_template <- function(file,
                                    wellsAsFactors = TRUE,
                                    groupsAsFactors = TRUE,
                                    typesAsFactors = TRUE,
-                                   encoding = "UCS-2LE", #ignored
+                                   #encoding = "UTF-16LE", #ignored
                                    ...) {
     d <- utils::read.delim(
         file = file,

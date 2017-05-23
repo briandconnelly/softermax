@@ -9,15 +9,15 @@
 \usage{
 read_softmax5_template(file, include_unspecified = FALSE,
   zeropad_wells = FALSE, wellsAsFactors = TRUE, groupsAsFactors = TRUE,
-  typesAsFactors = TRUE, encoding = "UCS-2LE", ...)
+  typesAsFactors = TRUE, ...)
 
 read_softmax6_template(file, include_unspecified = FALSE,
   zeropad_wells = FALSE, wellsAsFactors = TRUE, groupsAsFactors = TRUE,
-  typesAsFactors = TRUE, encoding = "UCS-2LE", ...)
+  typesAsFactors = TRUE, ...)
 
 read_softmax_template(file, include_unspecified = FALSE,
   zeropad_wells = FALSE, wellsAsFactors = TRUE, groupsAsFactors = TRUE,
-  typesAsFactors = TRUE, encoding = "UCS-2LE", ...)
+  typesAsFactors = TRUE, ...)
 }
 \arguments{
 \item{file}{Either a path to a file, a connection, or literal data (either a
@@ -38,14 +38,6 @@ should be treated as factors (default: \code{TRUE})}
 \item{typesAsFactors}{Logical value indicating whether or not types
 should be treated as factors (default: \code{TRUE}). The set of valid types
 supported by SoftMax Pro differs from version to version.}
-
-\item{encoding}{encoding to be assumed for input strings.  It is
-    used to mark character strings as known to be in
-    Latin-1 or UTF-8 (see \code{\link{Encoding}}): it is not used to
-    re-encode the input, but allows \R to handle encoded strings in
-    their native encoding (if one of those two).  See \sQuote{Value}
-    and \sQuote{Note}.
-  }
 
 \item{...}{Additional parameters passed to \code{\link[utils]{read.delim}}}
 }

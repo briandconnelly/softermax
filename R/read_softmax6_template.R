@@ -6,7 +6,7 @@ read_softmax6_template <- function(file,
                                    wellsAsFactors = TRUE,
                                    groupsAsFactors = TRUE,
                                    typesAsFactors = TRUE,
-                                   encoding = "UCS-2LE",
+                                   #encoding = "UTF-16",
                                    ...) {
     d <- utils::read.delim(
         file = file,
@@ -26,7 +26,7 @@ read_softmax6_template <- function(file,
             "HANGING"
         ),
         blank.lines.skip = TRUE,
-        fileEncoding = encoding,
+        #fileEncoding = encoding,
         stringsAsFactors = FALSE,
         ...
     )
