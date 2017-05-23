@@ -1,6 +1,6 @@
 # softermax NEXT
 
-* TODO
+* `read_softmax_xml`: Added `...` arguments, passed to `xml2::read_xml`
 
 
 # softermax 0.2.3

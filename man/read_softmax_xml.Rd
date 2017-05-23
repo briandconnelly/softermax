@@ -7,15 +7,17 @@
 \alias{read_softmax_xml}
 \title{Read a SoftMax Pro XML File}
 \usage{
-read_softmax5_xml(file)
+read_softmax5_xml(file, ...)
 
-read_softmax6_xml(file)
+read_softmax6_xml(file, ...)
 
-read_softmax_xml(file)
+read_softmax_xml(file, ...)
 }
 \arguments{
 \item{file}{Either a path to a file, a connection, or literal data (either a
 single string or a raw vector).}
+
+\item{...}{Additional arguments passed to \code{\link[xml2]{read_xml}}}
 }
 \value{
 A \code{softermax} object that contains data for each experiment and

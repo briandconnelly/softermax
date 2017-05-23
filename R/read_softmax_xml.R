@@ -13,6 +13,7 @@
 #'
 #' @param file Either a path to a file, a connection, or literal data (either a
 #' single string or a raw vector).
+#' @param ... Additional arguments passed to \code{\link[xml2]{read_xml}}
 #'
 #' @return A \code{softermax} object that contains data for each experiment and
 #' plate specified in the given file
@@ -23,9 +24,9 @@
 #' d <- read_softmax_xml("myfile.xml")
 #' }
 #'
-read_softmax_xml <- function(file) {
+read_softmax_xml <- function(file, ...) {
 
-    datafile <- xml2::read_xml(file)
+    datafile <- xml2::read_xml(file, ...)
 
     switch(xml2::xml_name(datafile),
            microplateDoc = read_softmax5_xml(file),

@@ -84,8 +84,8 @@ read_softmax5_xml_experiment <- function(e) {
 
 #' @rdname read_softmax_xml
 #' @export
-read_softmax5_xml <- function(file) {
-    datafile <- xml2::read_xml(file)
+read_softmax5_xml <- function(file, ...) {
+    datafile <- xml2::read_xml(file, ...)
     xml2::xml_ns_strip(datafile)
 
     d <- softermax(
