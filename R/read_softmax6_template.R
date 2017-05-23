@@ -6,8 +6,13 @@ read_softmax6_template <- function(file,
                                    wellsAsFactors = TRUE,
                                    groupsAsFactors = TRUE,
                                    typesAsFactors = TRUE,
-                                   #encoding = "UTF-16",
+                                   encoding = "guess",
                                    ...) {
+
+    if (encoding == "guess") {
+        encoding <- readr::guess_encoding(file)[[1, "encoding"]]
+    }
+
     d <- utils::read.delim(
         file = file,
         header = FALSE,
@@ -26,7 +31,7 @@ read_softmax6_template <- function(file,
             "HANGING"
         ),
         blank.lines.skip = TRUE,
-        #fileEncoding = encoding,
+        fileEncoding = encoding,
         stringsAsFactors = FALSE,
         ...
     )

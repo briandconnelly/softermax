@@ -13,6 +13,8 @@
 #' @param typesAsFactors Logical value indicating whether or not types
 #' should be treated as factors (default: \code{TRUE}). The set of valid types
 #' supported by SoftMax Pro differs from version to version.
+#' @param encoding Encoding for the template file. If \code{"guess"}, the
+#' default, the encoding will be guessed.
 #' @inheritParams utils::read.table
 #' @note Different versions of SoftMax Pro write units differently. For example,
 #' v5.2 uses "l" for liters, while v6.4 uses "L".
@@ -33,7 +35,7 @@ read_softmax_template <- function(file,
                                   wellsAsFactors = TRUE,
                                   groupsAsFactors = TRUE,
                                   typesAsFactors = TRUE,
-                                  #encoding = "UTF-16",
+                                  encoding = "guess",
                                   ...) {
     warning("Using read_softmax6_template", call. = FALSE)
 
@@ -43,6 +45,6 @@ read_softmax_template <- function(file,
                            wellsAsFactors = wellsAsFactors,
                            groupsAsFactors = groupsAsFactors,
                            typesAsFactors = typesAsFactors,
-                           #encoding = encoding,
+                           encoding = encoding,
                            ...)
 }
