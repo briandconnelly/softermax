@@ -1,6 +1,6 @@
-# softermax NEXT
+# softermax 0.2.4
 
-* `read_softmax_xml`: Added `...` arguments, passed to `xml2::read_xml`
+* `read_softmax_xml`: Added `...` argument, passed to `xml2::read_xml`
 * `read_softmax_template` now has an `encoding` argument for specifying the file encoding. If `guess` is used, encoding is guessed.
 
 

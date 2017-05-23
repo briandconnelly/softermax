@@ -40,7 +40,7 @@ should be treated as factors (default: \code{TRUE}). The set of valid types
 supported by SoftMax Pro differs from version to version.}
 
 \item{encoding}{Encoding for the template file. If \code{"guess"}, the
-default, the encoding will be guessed}
+default, the encoding will be guessed.}
 
 \item{...}{Additional parameters passed to \code{\link[utils]{read.delim}}}
 }

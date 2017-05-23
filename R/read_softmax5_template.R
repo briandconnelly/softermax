@@ -11,7 +11,6 @@ read_softmax5_template <- function(file,
 
     if (encoding == "guess") {
         encoding <- readr::guess_encoding(file)[[1, "encoding"]]
-        message(sprintf("Using encoding '%s'", encoding))
     }
 
     d <- utils::read.delim(
