@@ -40,7 +40,7 @@ softermax is not quite ready to be available on [CRAN](http://cran.r-project.org
 
 ``` r
 if(!require("devtools")) install.packages("devtools")
-devtools::install_github("briandconnelly/softermax")
+devtools::install_github("briandconnelly/softermax", build_vignettes = TRUE)
 ```
 
 Usage
@@ -50,15 +50,7 @@ To start working with your plate data in R, we'll first export the data as an XM
 
 ### Exporting Plate Data as XML
 
-With your experiment file open, select **Export** from the Main Menu.
-
-![](README-images/main_menu.png)
-
-Now, from the Export dialog, select either a single plate (orange butterfly) or all of the plates (blue raindrop) from your experiment. Then, select **XML** under *Output Format* (green ghost), and hit the **OK** button.
-
-![](README-images/export_details.png)
-
-Choose your file name, and you're all set.
+See the [Exporting SoftMax Pro Data as XML](vignettes/exporting-xml.Rmd) vignette.
 
 ### Importing Data into R
 
