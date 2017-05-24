@@ -1,3 +1,9 @@
+# softermax NEXT
+
+* Added "Exporting SoftMax Pro Data as XML" vignette
+* `experiment_names`, `note_names`, and `plate_names` now use `vapply` instead of `sapply`
+
+
 # softermax 0.2.4
 
 * `read_softmax_xml`: Added `...` argument, passed to `xml2::read_xml`

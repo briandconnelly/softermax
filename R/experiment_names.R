@@ -15,5 +15,11 @@
 #' experiment_names(d)
 #' }
 experiment_names <- function(x) {
-    sapply(X = x$experiments, FUN = function(x) attr(x, "name"))
+    unname(
+        vapply(
+            X = x$experiments,
+            FUN = function(x) attr(x, "name"),
+            FUN.VALUE = character(1)
+        )
+    )
 }
