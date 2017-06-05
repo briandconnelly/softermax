@@ -29,7 +29,7 @@ softermax.experiment <- function(name,
 
     plate_names <- list_attrs(x$plates, "name")
 
-    #Warn if there are duplicate plate names
+    # Warn if there are duplicate plate names
     dup_names <- find_duplicate_strings(plate_names)
     if (length(dup_names) > 0) {
         warning(
