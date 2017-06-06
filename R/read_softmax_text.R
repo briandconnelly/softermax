@@ -180,6 +180,17 @@ read_softmax_text_blockheader <- function(block_info, ...) {
     block_info
 }
 
+
+time_secs <- function(str) {
+    z <- stringi::stri_match(
+        str = str,
+        regex = "(([0-9]{1,2}):)?([0-9]{1,2}):([0-9]{2})"
+    )
+    z[is.na(z)] <- 0
+    (as.numeric(z[,3]) * 60 * 60) + (as.numeric(z[,4]) * 60) + (as.numeric(z[,5]))
+}
+
+
 # Parse a plate block in a SoftMax Pro text file
 read_softmax_text_plate <- function(block_info, block_raw, ...) {
     block_info <- read_softmax_text_blockheader(block_info)
@@ -192,45 +203,77 @@ read_softmax_text_plate <- function(block_info, block_raw, ...) {
     block_data[[1]][1:2] <- c("Time", "Temperature")
 
     lX <- lapply(block_data, length)
-    x2 <- block_data[lX > 1]
+    x2 <- block_data[lX > 3] # Kinetic reads in plateformat put a blank line between records (with 3 tabs)
     mX <- matrix(unlist(x2[2:length(x2)]), nrow = length(x2) - 1, byrow = TRUE)
     dX <- as.data.frame(mX, row.names = FALSE, stringsAsFactors = FALSE)
     names(dX) <- block_data[[1]]
 
+    # Remove the trailing columns
+    # Note: this doesn't check to see if the column has no data...
+    dX[which(names(dX) == "")] <- NULL
+
     if (block_info$export_format == "PlateFormat") {
-        dX$Time <- as.numeric(dX$Time[1])
-        dX$Temperature <- as.numeric(dX$Temperature[1])
+        dX$Temperature <- as.numeric(dX$Temperature)
+        dX <- tidyr::fill_(
+            data = dX,
+            fill_cols = c("Temperature"),
+            .direction = "down"
+        )
 
-        # Remove the trailing columns
-        # Note: this doesn't check to see if the column has no data...
-        dX[which(names(dX) == "")] <- NULL
+        dX$Row <- rep(1:8, nrow(dX) / 8)
 
-        dX$Row <- seq_len(nrow(dX))
-
-        # TODO: use non-NSE version, gather_
-        dX <- tidyr::gather(dX, key = Column, value = Value, -Time, -Temperature, -Row)
+        dX <- tidyr::gather_(
+            data = dX,
+            key_col = "Column",
+            value_col = "Value",
+            gather_cols = as.character(1:12)
+        )
         dX$Column <- as.integer(dX$Column)
         dX$Value <- as.numeric(dX$Value)
 
-    } else if (block_info$export_format == "TimeFormat") {
-        # Handle empty last column
-        if (all(is.na(dX[[ncol(dX)]])) || all(dX[[ncol(dX)]] == "")) {
-            dX[[ncol(dX)]] <- NULL
+        if ((block_info$read_mode == "Endpoint") && (all(dX$Time == ""))) {
+            dX$Time <- NA
+        } else if (block_info$read_mode == "Kinetic") {
+            dX$TimeSeconds <- time_secs(dX$Time)
+            dX[dX$Time == "", "TimeSeconds"] <- NA
+            dX <- tidyr::fill_(
+                data = dX,
+                fill_cols = c("TimeSeconds"),
+                .direction = "down"
+            )
+            dX$Time <- dX$TimeSeconds
+
+            # Convert Row/Column into well
+            dX$Well <- paste0(LETTERS[dX$Row], dX$Column)
+
+            dX <- dX[c("Time", "Temperature", "Well", "Value")]
         }
 
-        # Make columns numeric.
-        dX[, 2:ncol(dX)] <- lapply(dX[, 2:ncol(dX)], as.numeric)
+    } else if (block_info$export_format == "TimeFormat") {
+        dX$Time <- time_secs(dX$Time)
+        dX$Temperature <- as.numeric(dX$Temperature)
 
-        # TODO: make tidy?
+        # Make tidy
+        dX <- tidyr::gather_(
+            data = dX,
+            key_col = "Well",
+            value_col = "Value",
+            gather_cols = names(dX)[3:length(names(dX))]
+        )
+        dX$Value <- as.numeric(dX$Value)
     }
 
-    # Use readr::parse_time on the time column
+    if (block_info$num_wavelengths != 1) {
+        stop("I cannot handle >1 wavelengths right now.")
+    }
 
-
+    # TODO: Add wavelength info (look in start_wavelength,end_wavelengt,wavelength_step,read_wavelengths,num_wavelengths)
+    # TODO: sort the results
 
     # TODO: make an object
     #block_data
     dX
+    #as.data.frame(block_info)
 }
 
 
