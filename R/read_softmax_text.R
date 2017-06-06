@@ -27,13 +27,11 @@ read_softmax_text <- function(file, ...) {
     }
 
     raw <- readr::read_lines(file = file, skip = 1)
-    # Remove empty lines
-    raw <- raw[raw != ""]
 
     start_linenos <- which(
         stringi::stri_detect(
             str = raw,
-            regex = "^(Plate|Cuvette|Note|Group):\\s*"
+            regex = "^(Plate|CuvetteSet|Note|Group|Graph):\\s*"
         )
     )
     end_linenos <- which(stringi::stri_detect(str = raw, regex = "^~End\\s*$"))
@@ -57,19 +55,19 @@ read_softmax_text <- function(file, ...) {
                 pattern = "\t"
             )[[1]]
 
-            # TODO: note number support
             res <- switch(stringi::stri_trim_both(block_info[1]),
                           "Plate:" = read_softmax_text_plate(block_info, block_raw),
-                          "Cuvette:" = read_softmax_text_cuvette(block_info, block_raw),
+                          "CuvetteSet:" = read_softmax_text_cuvetteset(block_info, block_raw),
                           "Note:" = read_softmax_text_note(block_info, block_raw),
-                          "Group:" = read_softmax_text_group(block_info, block_raw)
+                          "Group:" = read_softmax_text_group(block_info, block_raw),
+                          "Graph:" = read_softmax_text_graph(block_info, block_raw)
             )
 
             res
         }
     )
 
-    # TODO: parse the last line for Original Filename and date last saved?
+    # TODO: parse the last line for Original Filename and date last saved
 
     # Use this to add Notes, Plates, etc. to x
     block_type <- lapply(blocks, class)
@@ -185,6 +183,7 @@ read_softmax_text_blockheader <- function(block_info, ...) {
 # Parse a plate block in a SoftMax Pro text file
 read_softmax_text_plate <- function(block_info, block_raw, ...) {
     block_info <- read_softmax_text_blockheader(block_info)
+    block_raw <- block_raw[block_raw != ""]
 
     block_data <- stringi::stri_split_regex(
         str = block_raw[2:length(block_raw)],
@@ -235,8 +234,8 @@ read_softmax_text_plate <- function(block_info, block_raw, ...) {
 }
 
 
-# Parse a cuvette block in a SoftMax Pro text file
-read_softmax_text_cuvette <- function(block_info, block_raw, ...) {
+# Parse a CuvetteSet block in a SoftMax Pro text file
+read_softmax_text_cuvetteset <- function(block_info, block_raw, ...) {
     cat("Parsing a cuvette\n")
     cat("------------------------------------------------------------------\n")
     "(CUVETTE)"
@@ -246,7 +245,7 @@ read_softmax_text_cuvette <- function(block_info, block_raw, ...) {
 # Parse a note block in a SoftMax Pro text file
 read_softmax_text_note <- function(block_info,
                                    block_raw,
-                                   collapse = " ",
+                                   collapse = "\n",
                                    ...) {
     note_text <- ifelse(
         length(block_raw) > 1,
@@ -268,4 +267,10 @@ read_softmax_text_note <- function(block_info,
 read_softmax_text_group <- function(block_info, block_raw, ...) {
     # TODO
     "(GROUP)"
+}
+
+# Parse a graph block in a SoftMax Pro text file
+read_softmax_text_graph <- function(block_info, block_raw, ...) {
+    # TODO
+    "(GRAPH)"
 }
