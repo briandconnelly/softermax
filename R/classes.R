@@ -1,5 +1,18 @@
-# Constructors for softermax objects
-
+#' Create softermax Objects
+#'
+#' @description \code{softermax} creates a softermax object
+#'
+#' @param experiments A list of \code{softermax.experiment} objects
+#' @param attrs A list of attributres relevant to the object
+#'
+#' @return An object of the corresponding type
+#' @export
+#' @seealso \code{\link{is.softermax}}
+#'
+#' @examples
+#' \dontrun{
+#' TODO
+#' }
 softermax <- function(experiments = list(), attrs = list()) {
     x <- structure(
         list(
@@ -14,6 +27,13 @@ softermax <- function(experiments = list(), attrs = list()) {
 }
 
 
+#' @rdname softermax
+#' @description \code{softermax.experiment} creates a softermax.experiment
+#' object, which stores information about an experiment
+#' @param name Name describing the experiment/plate/name/etc.
+#' @param plates A list of \code{softermax.plate} objects
+#' @param notes A list of \code{softermax.note} objects
+#' @export
 softermax.experiment <- function(name,
                                  plates = list(),
                                  notes = list(),
@@ -53,9 +73,15 @@ softermax.experiment <- function(name,
 }
 
 
+#' @rdname softermax
+#' @description \code{softermax.plate} creates a softermax.plate
+#' object, which stores information about a plate
+#' @param wavelengths A list of \code{softermax.wavelength} objects
+#' @param temperatures TODO
+#' @export
 softermax.plate <- function(name,
                             wavelengths = list(),
-                            temperatures = NA,
+                            temperatures = NULL,
                             attrs = list()) {
     x <- structure(
         list(
@@ -72,6 +98,11 @@ softermax.plate <- function(name,
 }
 
 
+#' @rdname softermax
+#' @description \code{softermax.note} creates a softermax.note
+#' object, which stores information about a note
+#' @param text_data A list of strings
+#' @export
 softermax.note <- function(name, text_data = list(), attrs = list()) {
     x <- structure(
         list(
@@ -86,6 +117,12 @@ softermax.note <- function(name, text_data = list(), attrs = list()) {
 }
 
 
+#' @rdname softermax
+#' @description \code{softermax.wavelength} creates a softermax.wavelength
+#' object, which stores information about a read at a particular wavelength
+#' @param wavelength An integer specifying a read wavelength
+#' @param wells A list of \code{softermax.well} objects
+#' @export
 softermax.wavelength <- function(wavelength, wells = list(), attrs = list()) {
     x <- structure(
         list(
@@ -101,6 +138,12 @@ softermax.wavelength <- function(wavelength, wells = list(), attrs = list()) {
 }
 
 
+#' @rdname softermax
+#' @description \code{softermax.well} creates a softermax.well
+#' object, which stores information about a well in a microtiter plate
+#' @param times A vector of read times (numeric)
+#' @param values A vector of read values (numeric)
+#' @export
 softermax.well <- function(name, times, values, attrs = list()) {
     x <- structure(
         list(
@@ -116,6 +159,13 @@ softermax.well <- function(name, times, values, attrs = list()) {
 }
 
 
+#' @rdname softermax
+#' @description \code{softermax.template} creates a softermax.template
+#' object, which stores layout information for a microtiter plate
+#' @param wellsAsFactors A logical value indicating whether well names (e.g., "A6") should be treated as factors or not (default: \code{TRUE})
+#' @param groupsAsFactors A logical value indicating whether well groups should be treated as factors or not (default: \code{TRUE})
+#' @param groupsAsFactors A logical value indicating whether well group types should be treated as factors or not (default: \code{TRUE})
+#' @export
 softermax.template <- function(x,
                               wellsAsFactors = TRUE,
                               groupsAsFactors = TRUE,

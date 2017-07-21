@@ -55,6 +55,7 @@ read_softmax_text <- function(file, ...) {
                 pattern = "\t"
             )[[1]]
 
+            # TODO: Plate: Note: etc. have a tab after the colon. Group: has a space.
             res <- switch(stringi::stri_trim_both(block_info[1]),
                           "Plate:" = read_softmax_text_plate(block_info, block_raw),
                           "CuvetteSet:" = read_softmax_text_cuvetteset(block_info, block_raw),
@@ -68,8 +69,11 @@ read_softmax_text <- function(file, ...) {
     )
 
     # TODO: parse the last line for Original Filename and date last saved
+    #last_lines <- raw[(max(end_linenos) + 1):length(raw)]
+    #cat("LAST FEW LINES ARE:", last_lines, "\n")
 
     # Use this to add Notes, Plates, etc. to x
+    # TODO: block could have multiple classes? Use is.data.frame, is.X, etc. instead
     block_type <- lapply(blocks, class)
 
     # SMP6 (at least), puts everything together, so there could be plates/notes/etc with duplicate names.
@@ -267,13 +271,26 @@ read_softmax_text_plate <- function(block_info, block_raw, ...) {
         stop("I cannot handle >1 wavelengths right now.")
     }
 
+    # plate <- softermax.plate(
+    #     name = block_info$section_name,
+    #     wavelengths = list(
+    #         softermax.wavelength(
+    #             wavelength = block_info$read_wavelengths,
+    #             wells = list(),
+    #             attrs = list()
+    #         )
+    #     ),
+    #     temperatures = NA, # TODO
+    #     attrs = list() #TODO
+    # )
+
     # TODO: Add wavelength info (look in start_wavelength,end_wavelengt,wavelength_step,read_wavelengths,num_wavelengths)
     # TODO: sort the results
 
     # TODO: make an object
     #block_data
-    dX
-    #as.data.frame(block_info)
+    #dX
+    as.data.frame(block_info)
 }
 
 
@@ -309,11 +326,13 @@ read_softmax_text_note <- function(block_info,
 # Parse a group block in a SoftMax Pro text file
 read_softmax_text_group <- function(block_info, block_raw, ...) {
     # TODO
+    warning("group blocks are not yet supported. Skipping.", call. = FALSE)
     "(GROUP)"
 }
 
 # Parse a graph block in a SoftMax Pro text file
 read_softmax_text_graph <- function(block_info, block_raw, ...) {
     # TODO
+    warning("graph blocks are not yet supported. Skipping.", call. = FALSE)
     "(GRAPH)"
 }
