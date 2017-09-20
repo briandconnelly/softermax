@@ -8,11 +8,6 @@
 #' @return An object of the corresponding type
 #' @export
 #' @seealso \code{\link{is.softermax}}
-#'
-#' @examples
-#' \dontrun{
-#' TODO
-#' }
 softermax <- function(experiments = list(), attrs = list()) {
     x <- structure(
         list(
@@ -162,9 +157,10 @@ softermax.well <- function(name, times, values, attrs = list()) {
 #' @rdname softermax
 #' @description \code{softermax.template} creates a softermax.template
 #' object, which stores layout information for a microtiter plate
+#' @param x A data frame
 #' @param wellsAsFactors A logical value indicating whether well names (e.g., "A6") should be treated as factors or not (default: \code{TRUE})
 #' @param groupsAsFactors A logical value indicating whether well groups should be treated as factors or not (default: \code{TRUE})
-#' @param groupsAsFactors A logical value indicating whether well group types should be treated as factors or not (default: \code{TRUE})
+#' @param typesAsFactors A logical value indicating whether well group types should be treated as factors or not (default: \code{TRUE})
 #' @export
 softermax.template <- function(x,
                               wellsAsFactors = TRUE,
@@ -187,3 +183,4 @@ softermax.template <- function(x,
         "Descriptor1.Value", "Descriptor1.Units", "Descriptor2.Name",
         "Descriptor2.Value", "Descriptor2.Units")]
 }
+

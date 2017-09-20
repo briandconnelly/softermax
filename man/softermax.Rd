@@ -52,11 +52,13 @@ softermax.template(x, wellsAsFactors = TRUE, groupsAsFactors = TRUE,
 
 \item{values}{A vector of read values (numeric)}
 
+\item{x}{A data frame}
+
 \item{wellsAsFactors}{A logical value indicating whether well names (e.g., "A6") should be treated as factors or not (default: \code{TRUE})}
 
 \item{groupsAsFactors}{A logical value indicating whether well groups should be treated as factors or not (default: \code{TRUE})}
 
-\item{groupsAsFactors}{A logical value indicating whether well group types should be treated as factors or not (default: \code{TRUE})}
+\item{typesAsFactors}{A logical value indicating whether well group types should be treated as factors or not (default: \code{TRUE})}
 }
 \value{
 An object of the corresponding type
@@ -81,11 +83,6 @@ object, which stores information about a well in a microtiter plate
 
 \code{softermax.template} creates a softermax.template
 object, which stores layout information for a microtiter plate
-}
-\examples{
-\dontrun{
-TODO
-}
 }
 \seealso{
 \code{\link{is.softermax}}

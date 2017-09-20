@@ -16,8 +16,15 @@ read_softmax5_xml_plate <- function(p) {
 
     wavelengths <- unlist(
         lapply(
-            X = xml2::xml_find_all(p, ".//instrumentSettings/wavelengthInfo/waveSet"),
-            FUN = function(x) as.numeric(xml2::xml_text(xml2::xml_find_first(x, ".//waveValue")))
+            X = xml2::xml_find_all(
+                p,
+                xpath = ".//instrumentSettings/wavelengthInfo/waveSet"
+            ),
+            FUN = function(x) {
+                as.numeric(
+                    xml2::xml_text(xml2::xml_find_first(x, ".//waveValue"))
+                )
+            }
         )
     )
 
@@ -38,17 +45,36 @@ read_softmax5_xml_plate <- function(p) {
                 )
             }
         ),
-        temperatures = as.numeric(strsplit(xml2::xml_text(temps_raw), " ")[[1]]),
+        temperatures = as.numeric(
+            strsplit(xml2::xml_text(temps_raw), " ")[[1]]
+        ),
         attrs = list(
             type = xml2::xml_text(xml2::xml_find_first(p, ".//plateType")),
-            num_wells = as.integer(xml2::xml_text(xml2::xml_find_first(p, ".//microplateData/noOfWells"))),
-            read_time = readr::parse_datetime(readtime_raw, format = "%T %p %m/%d/%Y"),
-            instrument_info = xml2::xml_text(xml2::xml_find_first(p, ".//instrumentInfo")),
+            num_wells = as.integer(
+                xml2::xml_text(
+                    xml2::xml_find_first(p, ".//microplateData/noOfWells")
+                )
+            ),
+            read_time = readr::parse_datetime(
+                readtime_raw,
+                format = "%T %p %m/%d/%Y"
+            ),
+            instrument_info = xml2::xml_text(
+                xml2::xml_find_first(p, ".//instrumentInfo")
+            ),
             instrument_settings = list(
-                read_mode = xml2::xml_text(xml2::xml_find_first(p, ".//instrumentSettings/readMode")),
-                read_type = xml2::xml_text(xml2::xml_find_first(p, ".//instrumentSettings/readType")),
-                abs_data_type = xml2::xml_text(xml2::xml_find_first(p, ".//instrumentSettings/absDataType")),
-                num_reads = as.integer(xml2::xml_text(xml2::xml_find_first(p, ".//instrumentSettings/noOfReads"))),
+                read_mode = xml2::xml_text(
+                    xml2::xml_find_first(p, ".//instrumentSettings/readMode")
+                ),
+                read_type = xml2::xml_text(
+                    xml2::xml_find_first(p, ".//instrumentSettings/readType")
+                ),
+                abs_data_type = xml2::xml_text(
+                    xml2::xml_find_first(p, ".//instrumentSettings/absDataType")
+                ),
+                num_reads = as.integer(xml2::xml_text(
+                    xml2::xml_find_first(p, ".//instrumentSettings/noOfReads"))
+                ),
                 wavelengths = wavelengths
             )
         )

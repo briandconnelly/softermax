@@ -12,11 +12,10 @@
 #' note_names(d$experiments[[1]])
 #' }
 note_names <- function(x) {
-    unname(
-        vapply(
-            X = x$notes,
-            FUN = function(x) attr(x, "name"),
-            FUN.VALUE = character(1)
-        )
+    vapply(
+        X = x$notes,
+        FUN = function(x) attr(x, "name"),
+        FUN.VALUE = character(1),
+        USE.NAMES = FALSE
     )
 }

@@ -1,3 +1,2 @@
-#' @importFrom readr parse_datetime
-#' @import xml2
+#' @keywords internal
 "_PACKAGE"

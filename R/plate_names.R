@@ -12,11 +12,10 @@
 #' plate_names(d$experiments[[1]])
 #' }
 plate_names <- function(x) {
-    unname(
-        vapply(
-            X = x$plates,
-            FUN = function(x) attr(x, "name"),
-            FUN.VALUE = character(1)
-        )
+    vapply(
+        X = x$plates,
+        FUN = function(x) attr(x, "name"),
+        FUN.VALUE = character(1),
+        USE.NAMES = FALSE
     )
 }

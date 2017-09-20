@@ -20,11 +20,16 @@ read_softmax6_xml_plate_well_absorbance <- function(w) {
 # Read information about a plate <PlateSection>
 read_softmax6_xml_plate <- function(p) {
     plate_attrs <- xml2::xml_attrs(p)
-    inst_attrs <- xml2::xml_attrs(xml2::xml_find_first(p, ".//InstrumentSettings"))
+    inst_attrs <- xml2::xml_attrs(
+        xml2::xml_find_first(p, ".//InstrumentSettings")
+    )
 
     wavelengths <- unlist(
         lapply(
-            X = xml2::xml_find_all(p, ".//InstrumentSettings/WavelengthSettings/Wavelength"),
+            X = xml2::xml_find_all(
+                p,
+                xpath = ".//InstrumentSettings/WavelengthSettings/Wavelength"
+            ),
             FUN = function(x) as.numeric(xml2::xml_text(x))
         )
     )
@@ -36,7 +41,8 @@ read_softmax6_xml_plate <- function(p) {
     well_fn <- switch(read_mode,
                       "Absorbance" = read_softmax6_xml_plate_well_absorbance,
                       #"Luminescence" = read_softmax6_xml_plate_well_luminescence,
-                      stop(sprintf("'%s' read mode is unsupported", read_mode), call. = FALSE))
+                      stop(sprintf("'%s' read mode is unsupported", read_mode),
+                           call. = FALSE))
 
     softermax.plate(
         name = plate_attrs[["Name"]],
@@ -53,11 +59,16 @@ read_softmax6_xml_plate <- function(p) {
 
             }
         ),
-        temperatures = as.numeric(strsplit(xml2::xml_text(temps_raw), " ")[[1]]),
+        temperatures = as.numeric(
+            strsplit(xml2::xml_text(temps_raw), " ")[[1]]
+        ),
         attrs = list(
             type = inst_attrs[["PlateType"]],
             barcode = xml2::xml_text(xml2::xml_find_first(p, ".//Barcode")),
-            read_time = readr::parse_datetime(plate_attrs[["ReadTime"]], format = "%T %p %m/%d/%Y"),
+            read_time = readr::parse_datetime(
+                plate_attrs[["ReadTime"]],
+                format = "%T %p %m/%d/%Y"
+            ),
             instrument_info = plate_attrs[["InstrumentInfo"]],
             instrument_settings = list(
                 read_mode = inst_attrs[["ReadMode"]],

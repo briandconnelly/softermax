@@ -9,4 +9,5 @@
 ^README-.*\.png$
 ^testdata$
 ^testing.R$
+^TEST_softmax_text\.R$
 ^NOTES\.md$
