@@ -30,7 +30,7 @@ softermax.template(x, wellsAsFactors = TRUE, groupsAsFactors = TRUE,
 \arguments{
 \item{experiments}{A list of \code{softermax.experiment} objects}
 
-\item{attrs}{A list of attributres relevant to the object}
+\item{attrs}{A list of attributes relevant to the object}
 
 \item{name}{Name describing the experiment/plate/name/etc.}
 

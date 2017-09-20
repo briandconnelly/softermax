@@ -3,7 +3,7 @@
 #' @description \code{softermax} creates a softermax object
 #'
 #' @param experiments A list of \code{softermax.experiment} objects
-#' @param attrs A list of attributres relevant to the object
+#' @param attrs A list of attributes relevant to the object
 #'
 #' @return An object of the corresponding type
 #' @export
