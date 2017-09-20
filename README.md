@@ -52,12 +52,13 @@ See the [Exporting SoftMax Pro Data as XML](vignettes/exporting-xml.Rmd) vignett
 
 ### Importing Data into R
 
-The `read_softmax_xml` function can read XML files exported by SoftMax Pro. Just supply the name of the file that you saved. For this example, I'll use one called `crystal_violet_dilutions.xml`.
+The `read_softmax_xml` function can read XML files exported by SoftMax Pro. Just supply the name of the file that you saved. For this example, I'll use an included sample file named `crystal_violet_dilutions.xml`.
 
 ``` r
 library(softermax)
 
-cvdata <- read_softmax_xml("crystal_violet_dilutions.xml")
+cvfile <- system.file("extdata", "crystal_violet_dilutions.xml", package = "softermax")
+cvdata <- read_softmax_xml(file = cvfile)
 ```
 
 The variable `d` is an object that contains information about your experiment(s). Most importantly, each experiment has a list of `plates` with read data. For this example data, there is only one experiment, with one plate, which was read at one wavelength. First, we can convert it to a data frame and look at the first ten rows:
