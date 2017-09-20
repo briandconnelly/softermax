@@ -21,4 +21,3 @@ Useful links:
 \strong{Maintainer}: Brian Connelly \email{bdc@bconnelly.net}
 
 }
-\keyword{internal}
