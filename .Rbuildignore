@@ -2,7 +2,6 @@
 ^\.Rproj\.user$
 ^CONDUCT\.md$
 ^\.travis\.yml$
-^README-images$
 ^README_cache$
 ^LICENSE\.txt$
 ^README\.Rmd$

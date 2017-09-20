@@ -127,7 +127,7 @@ ggplot(data = platedata, aes(x = Column, y = Row, color = Value)) +
     theme_bdc_microtiter()
 ```
 
-![](README-images/Static%20Plot-1.png)
+![](inst/img/README-StaticPlot-1.png)
 
 See Also
 --------

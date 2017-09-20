@@ -7,7 +7,7 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-images/"
+  fig.path = "inst/img/README-"
 )
 ```
 
@@ -131,7 +131,7 @@ platedata <- cvdata_df %>%
 Here, we'll use [ggplot2](https://cran.r-project.org/package=ggplot2) to plot the data with `theme_bdc_microtiter` from the [ggplot2bdc](https://github.com/briandconnelly/ggplot2bdc) package to make the output look like a 96-well microtiter plate.
 
 
-```{r Static Plot, cache=TRUE}
+```{r StaticPlot, cache=TRUE}
 library(ggplot2)
 library(ggplot2bdc)
 
