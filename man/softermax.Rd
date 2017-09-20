@@ -40,7 +40,7 @@ softermax.template(x, wellsAsFactors = TRUE, groupsAsFactors = TRUE,
 
 \item{wavelengths}{A list of \code{softermax.wavelength} objects}
 
-\item{temperatures}{TODO}
+\item{temperatures}{Temperature(s) at which plate was read (default: \code{NULL})}
 
 \item{text_data}{A list of strings}
 

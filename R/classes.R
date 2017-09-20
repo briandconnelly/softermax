@@ -72,7 +72,7 @@ softermax.experiment <- function(name,
 #' @description \code{softermax.plate} creates a softermax.plate
 #' object, which stores information about a plate
 #' @param wavelengths A list of \code{softermax.wavelength} objects
-#' @param temperatures TODO
+#' @param temperatures Temperature(s) at which plate was read (default: \code{NULL})
 #' @export
 softermax.plate <- function(name,
                             wavelengths = list(),

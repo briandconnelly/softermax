@@ -1,4 +1,4 @@
-# softermax NEXT
+# softermax 0.3.0
 
 * Added "Exporting SoftMax Pro Data as XML" vignette
 * `experiment_names`, `note_names`, and `plate_names` now use `vapply` instead of `sapply`
