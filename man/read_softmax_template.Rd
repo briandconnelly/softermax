@@ -5,7 +5,7 @@
 \alias{read_softmax5_template}
 \alias{read_softmax6_template}
 \alias{read_softmax_template}
-\title{Read a SoftMax Pro Template File}
+\title{Read a 'SoftMax Pro' Template File}
 \usage{
 read_softmax5_template(file, include_unspecified = FALSE,
   zeropad_wells = FALSE, wellsAsFactors = TRUE, groupsAsFactors = TRUE,
@@ -37,7 +37,7 @@ should be treated as factors (default: \code{TRUE})}
 
 \item{typesAsFactors}{Logical value indicating whether or not types
 should be treated as factors (default: \code{TRUE}). The set of valid types
-supported by SoftMax Pro differs from version to version.}
+supported by 'SoftMax Pro' differs from version to version.}
 
 \item{encoding}{Encoding for the template file. If \code{"guess"}, the
 default, the encoding will be guessed.}
@@ -48,10 +48,10 @@ default, the encoding will be guessed.}
 A data frame
 }
 \description{
-Read a SoftMax Pro Template File
+Read a 'SoftMax Pro' Template File
 }
 \note{
-Different versions of SoftMax Pro write units differently. For example,
+Different versions of 'SoftMax Pro' write units differently. For example,
 v5.2 uses "l" for liters, while v6.4 uses "L".
 }
 \examples{

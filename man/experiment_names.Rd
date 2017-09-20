@@ -8,7 +8,7 @@ experiment_names(x)
 }
 \arguments{
 \item{x}{A \code{softermax} object containing information
-about one or more experiments in SoftMax Pro}
+about one or more experiments in 'SoftMax Pro'}
 }
 \value{
 A vector of strings
@@ -17,7 +17,7 @@ A vector of strings
 Return the names of all experiments in a dataset
 }
 \note{
-Experiment names are not exported by SoftMax Pro version 6, and data
+Experiment names are not exported by 'SoftMax Pro' version 6, and data
 are grouped under a single experiment, so \code{"unknown"} is returned.
 }
 \examples{

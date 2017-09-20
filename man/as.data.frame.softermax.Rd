@@ -6,7 +6,7 @@
 \alias{as.data.frame.softermax.plate}
 \alias{as.data.frame.softermax.wavelength}
 \alias{as.data.frame.softermax.well}
-\title{Coerce SoftMax Pro data into data frames}
+\title{Coerce 'SoftMax Pro' data into data frames}
 \usage{
 \method{as.data.frame}{softermax}(x, row.names = NULL, optional = FALSE,
   experimentsAsFactors = TRUE, platesAsFactors = TRUE,
@@ -57,7 +57,7 @@ should be treated as factors (default: \code{TRUE})}
 A data frame
 }
 \description{
-Coerce SoftMax Pro data into data frames
+Coerce 'SoftMax Pro' data into data frames
 }
 \examples{
 \dontrun{

@@ -1,11 +1,11 @@
-#' Read a SoftMax Pro XML File
+#' Read a 'SoftMax Pro' XML File
 #'
 #' \code{read_softmax_xml} will attempt to automatically determine the
 #' appropriate file version. \code{read_softmax5_xml} and
-#' \code{read_softmax6_xml} will attempt to read the data as SoftMax Pro version
-#' 5 and 6 format, respectively.
+#' \code{read_softmax6_xml} will attempt to read the data as 'SoftMax Pro'
+#' version 5 and 6 format, respectively.
 #'
-#' @note XML files created by SoftMax Pro version 6 do not differentiate among
+#' @note XML files created by 'SoftMax Pro' version 6 do not differentiate among
 #' multiple experiments, so only one experiment will be present in the results.
 #' This can lead to problems when multiple experiments have plates with the same
 #' name. Future versions will detect this situation and rename plates with

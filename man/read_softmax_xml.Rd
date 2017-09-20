@@ -5,7 +5,7 @@
 \alias{read_softmax5_xml}
 \alias{read_softmax6_xml}
 \alias{read_softmax_xml}
-\title{Read a SoftMax Pro XML File}
+\title{Read a 'SoftMax Pro' XML File}
 \usage{
 read_softmax5_xml(file, ...)
 
@@ -26,11 +26,11 @@ plate specified in the given file
 \description{
 \code{read_softmax_xml} will attempt to automatically determine the
 appropriate file version. \code{read_softmax5_xml} and
-\code{read_softmax6_xml} will attempt to read the data as SoftMax Pro version
-5 and 6 format, respectively.
+\code{read_softmax6_xml} will attempt to read the data as 'SoftMax Pro'
+version 5 and 6 format, respectively.
 }
 \note{
-XML files created by SoftMax Pro version 6 do not differentiate among
+XML files created by 'SoftMax Pro' version 6 do not differentiate among
 multiple experiments, so only one experiment will be present in the results.
 This can lead to problems when multiple experiments have plates with the same
 name. Future versions will detect this situation and rename plates with

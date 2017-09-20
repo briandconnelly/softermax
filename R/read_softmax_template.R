@@ -1,4 +1,4 @@
-#' Read a SoftMax Pro Template File
+#' Read a 'SoftMax Pro' Template File
 #'
 #' @param file Either a path to a file, a connection, or literal data (either a
 #' single string or a raw vector).
@@ -12,11 +12,11 @@
 #' should be treated as factors (default: \code{TRUE})
 #' @param typesAsFactors Logical value indicating whether or not types
 #' should be treated as factors (default: \code{TRUE}). The set of valid types
-#' supported by SoftMax Pro differs from version to version.
+#' supported by 'SoftMax Pro' differs from version to version.
 #' @param encoding Encoding for the template file. If \code{"guess"}, the
 #' default, the encoding will be guessed.
 #' @inheritParams utils::read.table
-#' @note Different versions of SoftMax Pro write units differently. For example,
+#' @note Different versions of 'SoftMax Pro' write units differently. For example,
 #' v5.2 uses "l" for liters, while v6.4 uses "L".
 #' @param ... Additional parameters passed to \code{\link[utils]{read.delim}}
 #'

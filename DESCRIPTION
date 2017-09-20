@@ -1,8 +1,9 @@
 Package: softermax
 Type: Package
-Title: Read Exported Data from SoftMax Pro
-Description: Read microtiter plate data exported from Molecular Devices SoftMax
-    Pro.
+Title: Read Exported Data from 'SoftMax Pro'
+Description: Read microtiter plate data and templates exported from Molecular
+    Devices 'SoftMax Pro' software <https://www.moleculardevices.com/systems/microplate-readers/softmax-pro-7-software>.
+    Data exported by 'SoftMax Pro' version 5.4 and greater are supported.
 Version: 0.3.0
 Authors@R: c(person(given = "Brian", family = "Connelly", email = "bdc@bconnelly.net",
                     role = c("aut", "cre"))) 

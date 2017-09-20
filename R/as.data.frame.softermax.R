@@ -1,4 +1,4 @@
-#' Coerce SoftMax Pro data into data frames
+#' Coerce 'SoftMax Pro' data into data frames
 #'
 #' @param x A \code{softermax} object
 #' @inheritParams base::as.data.frame

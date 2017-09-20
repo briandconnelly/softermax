@@ -8,7 +8,7 @@ note_names(x)
 }
 \arguments{
 \item{x}{A \code{softermax.experiment} object containing information
-about an experiment in SoftMax Pro}
+about an experiment in 'SoftMax Pro'}
 }
 \value{
 A vector of strings

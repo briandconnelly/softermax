@@ -1,9 +1,9 @@
 #' Return the names of all experiments in a dataset
 #'
 #' @param x A \code{softermax} object containing information
-#' about one or more experiments in SoftMax Pro
+#' about one or more experiments in 'SoftMax Pro'
 #'
-#' @note Experiment names are not exported by SoftMax Pro version 6, and data
+#' @note Experiment names are not exported by 'SoftMax Pro' version 6, and data
 #' are grouped under a single experiment, so \code{"unknown"} is returned.
 #'
 #' @return A vector of strings
