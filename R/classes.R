@@ -8,6 +8,7 @@
 #' @return An object of the corresponding type
 #' @export
 #' @seealso \code{\link{is.softermax}}
+#' @rdname objects
 softermax <- function(experiments = list(), attrs = list()) {
     x <- structure(
         list(
@@ -22,7 +23,7 @@ softermax <- function(experiments = list(), attrs = list()) {
 }
 
 
-#' @rdname softermax
+#' @rdname objects
 #' @description \code{softermax.experiment} creates a softermax.experiment
 #' object, which stores information about an experiment
 #' @param name Name describing the experiment/plate/name/etc.
@@ -68,7 +69,7 @@ softermax.experiment <- function(name,
 }
 
 
-#' @rdname softermax
+#' @rdname objects
 #' @description \code{softermax.plate} creates a softermax.plate
 #' object, which stores information about a plate
 #' @param wavelengths A list of \code{softermax.wavelength} objects
@@ -93,7 +94,7 @@ softermax.plate <- function(name,
 }
 
 
-#' @rdname softermax
+#' @rdname objects
 #' @description \code{softermax.note} creates a softermax.note
 #' object, which stores information about a note
 #' @param text_data A list of strings
@@ -112,7 +113,7 @@ softermax.note <- function(name, text_data = list(), attrs = list()) {
 }
 
 
-#' @rdname softermax
+#' @rdname objects
 #' @description \code{softermax.wavelength} creates a softermax.wavelength
 #' object, which stores information about a read at a particular wavelength
 #' @param wavelength An integer specifying a read wavelength
@@ -133,7 +134,7 @@ softermax.wavelength <- function(wavelength, wells = list(), attrs = list()) {
 }
 
 
-#' @rdname softermax
+#' @rdname objects
 #' @description \code{softermax.well} creates a softermax.well
 #' object, which stores information about a well in a microtiter plate
 #' @param times A vector of read times (numeric)
@@ -154,7 +155,7 @@ softermax.well <- function(name, times, values, attrs = list()) {
 }
 
 
-#' @rdname softermax
+#' @rdname objects
 #' @description \code{softermax.template} creates a softermax.template
 #' object, which stores layout information for a microtiter plate
 #' @param x A data frame
