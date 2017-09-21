@@ -34,11 +34,19 @@ Development Status
 Installation
 ------------
 
-softermax is not quite ready to be available on [CRAN](http://cran.r-project.org), but you can use [devtools](http://cran.r-project.org/web/packages/devtools/index.html) to install the current development version:
+Installing softermax is as easy as running:
 
 ``` r
-if(!require("devtools")) install.packages("devtools")
-devtools::install_github("briandconnelly/softermax", build_vignettes = TRUE)
+install.packages("softermax")
+```
+
+### Installing the Development Version via GitHub
+
+You can use [devtools](https://cran.r-project.org/package=devtools) to install the development version from GitHub. To do so:
+
+``` r
+    if(!require("devtools")) install.packages("devtools")
+    devtools::install_github("briandconnelly/softermax")
 ```
 
 Usage
